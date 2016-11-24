@@ -17,7 +17,7 @@ Suits
 0: HEARTS
 1: DIAMONDS
 2: CLUBS
-3: CLUBS
+3: SPADES
 
 */
 #include <stdio.h>
@@ -28,6 +28,13 @@ Suits
 struct deck{
 	int suit;
 	int value; 
+};
+
+char *cardSuit[4] ={
+		"Hearts",
+		"Diamonds",
+		"Clubs",
+		"Spades"
 };
 
 //Sets card values to deck in play
@@ -58,8 +65,10 @@ void setCards(struct deck *deck){
 
 //Prints out card values in deck
 void printDeck(struct deck *deck){
-	for(int i=0; i<CARDS*DECKS, i++){
-		
+	for(int i=0; i<CARDS*DECKS; i++){
+		printf("CARD #%d: ", i);
+		printf("%d of ", deck[i].value);
+		printf("%s\n", cardSuit[deck[i].suit]);
 	}
 	return;
 }
