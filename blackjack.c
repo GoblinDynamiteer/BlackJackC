@@ -3,9 +3,6 @@
 BlackJack by Johan Kämpe! 
 For C programming practice.
 
-*/
-
-/* 
 Struct for decks
 Values 
 01: ACE 
@@ -18,8 +15,8 @@ Suits
 1: DIAMONDS
 2: CLUBS
 3: SPADES
-
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -55,8 +52,10 @@ void printCard(struct deck deck);
 void shuffleDeck(struct deck *deck);
 //Checks if deck contains valid cards
 bool checkDeck(struct deck *deck);
+void setScore(struct deck deck, int *score1, int *score2);
 
 int main(){
+	int score1 = 0, score2 = 0, dealerScore = 0, cardIndex = 0, choice = 0;
 	srand(time(NULL));
 	struct deck deck[deckSize];
 	setCards(deck);
@@ -67,7 +66,27 @@ int main(){
 		printf("The deck wasn't shuffled correctly!");
 		return 1;
 	}
-	printDeck(deck);
+	//First deal:
+	for(int i=0;i<2;i++){
+		printCard(deck[cardIndex]);
+		setScore(deck[cardIndex], &score1, &score2);
+		printf("Score: %d / %d\n\n", score1, score2);
+		cardIndex++;
+	}
+	while(1){
+		printf("1: Hit - 2: Stand. INPUT: ");
+		scanf("%d", &choice);
+		if(choice == 1){
+			printCard(deck[cardIndex]);
+			setScore(deck[cardIndex], &score1, &score2);
+			printf("Score: %d / %d\n\n", score1, score2);
+			cardIndex++;
+		}
+		if((score1 > 21) && (score2 > 21)){
+			printf("Bust!");
+			break;
+		}
+	}
 	return 0;
 }
 
@@ -82,6 +101,22 @@ void setCards(struct deck *deck){
 				cardNo++;
 			}
 		}
+	}
+	return;
+}
+
+void setScore(struct deck deck, int *score1, int *score2){
+	if((deck.value > 1) && (deck.value < 11)){
+		*score1 += deck.value;
+		*score2 += deck.value;
+	}
+	else if(deck.value == 1){
+		*score1 += deck.value;
+		*score2 += 11;
+	}
+	else{
+		*score1 += 10;
+		*score2 += 10;
 	}
 	return;
 }
