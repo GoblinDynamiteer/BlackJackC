@@ -3,7 +3,11 @@
 BlackJack by Johan Kämpe! 
 For C programming practice.
 
-Struct for decks
+Rules from http://www.bicyclecards.com/how-to-play/blackjack/
+
+
+
+Struct for decks:
 Values 
 01: ACE 
 02-10 VALUES 2-10
@@ -17,9 +21,12 @@ Suits
 2: CLUBS
 3: SPADES
 
+
+
 TODO:
 Betting
 Dealer
+BlackJack Score (ACE+10 first deal)
 
 */
 
@@ -34,6 +41,7 @@ Dealer
 #define DECKS 6	//Amount of decks in play
 #define SHUFFLES 10000 //Amount of random card swaps - "Shuffle"
 #define CHIPS 500	//Amount of player starting chips
+#define LINELEN 30
 
 struct deck{
 	int suit;
@@ -63,11 +71,12 @@ void shuffleDeck(struct deck *deck);
 bool checkDeck(struct deck *deck);
 void setScore(struct deck deck, int *score1, int *score2);
 void displayScore(int *score1, int *score2);
-void bet(int *chips);
+//Asks for bet amount, returns value. Subtracts from chip pool
+int bet(int *chips);
 void deal(struct deck *deck, int *cardIndex);
 
 int main(){
-	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS;
+	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS, currentBet = 0;
 	srand(time(NULL));
 	struct deck deck[deckSize];
 	setCards(deck);
@@ -78,13 +87,16 @@ int main(){
 		printf("The deck wasn't shuffled correctly!");
 		return 1;
 	}
-	//printLine prints a char x times, last argument toggles newline before and after
+	//Clears the screen (for Windows CMD), needed for ANSI color formatting of text
 	system("cls");
-	printLine('*', 25, 1);
+	//printLine prints a char-variable # times, last argument toggles
+	//if newline should be printed before and after the line 1-on 0-off
+	printLine('*', LINELEN, 1);
 	printf("Welcome to "FORM_RED"BLACKJACK C"FORM_END"!");
-	printLine('*', 25, 1);
-
-	//First deal, get two cards and display score:
+	printLine('*', LINELEN, 1);
+	//Initial bet
+	currentBet = bet(&chips);
+	//First deal, get dealed two cards and display score:
 	for(int i=0;i<2;i++){
 		deal(deck, &cardIndex);
 		if(!i){ //Prints a newline after first displayed card
@@ -96,12 +108,16 @@ int main(){
 	displayScore(&score1, &score2);
 	
 	while(1){
-		printf("1: Hit - 2: Stand. INPUT: ");
+		printf("1: Hit - 2: Stand. Enter: ");
 		scanf("%d", &choice);
 		if(choice == 1){
 			deal(deck, &cardIndex);
 			setScore(deck[cardIndex], &score1, &score2);
+			cardIndex++;
 			displayScore(&score1, &score2);
+		}
+		if(choice == 2){
+			;
 		}
 		if((score1 > 21) && (score2 > 21)){
 			printf("Bust!");
@@ -112,15 +128,28 @@ int main(){
 }
 
 void deal(struct deck *deck, int *cardIndex){
-	printf("You got dealt:\n");
+	printf("You got dealt: ");
 	printCard(deck[*cardIndex]);
-	*cardIndex++;
 }
 
-void bet(int *chips){
-	printf("Enter amount to bet: ");
+int bet(int *chips){
 	int betAmount;
-	scanf("%d", &betAmount);
+	while(1){
+		printf("You have %d credits.\n", *chips);
+		printf("Enter amount to bet: ");
+		scanf("%d", &betAmount);
+		if(betAmount > *chips){
+			printf("Not enouch credits!\n");
+			continue;
+		}
+		else if(betAmount <= 0){
+			printf("Wrong bet!\n");
+			continue;
+		}
+		break;
+	}
+	*chips -= betAmount;
+	return betAmount;
 }
 
 //Sets card values to deck in play
@@ -144,7 +173,7 @@ void setScore(struct deck deck, int *score1, int *score2){
 		*score2 += deck.value;
 	}
 	else if(deck.value == 1){
-		*score1 += deck.value;
+		*score1 += deck.value-1;
 		*score2 += 11;
 	}
 	else{
@@ -154,16 +183,18 @@ void setScore(struct deck deck, int *score1, int *score2){
 	return;
 }
 
-//Displays score
+//Displays player score
 void displayScore(int *score1, int *score2){
-	printLine('-', 25, 1);
+	printLine('-', LINELEN, 1);
+	printf("Your score: "FORM_CYAN_DARK);
 	if(*score1 == *score2){
-		printf("Your Score: %d", *score1);
+		printf("%d", *score1);
 	}
 	else{
-		printf("Your Score: %d / %d", *score1, *score2);
+		printf("%d / %d", *score1, *score2);
 	}
-	printLine('-', 25, 1);
+	printf(FORM_END);
+	printLine('-', LINELEN, 1);
 }
 
 //Checks if deck contains valid cards
@@ -208,6 +239,7 @@ void shuffleDeck(struct deck *deck){
 
 //Prints out single card value
 void printCard(struct deck deck){
+	printf(FORM_GREEN);
 	switch(deck.value){
 		case 1: 
 			printf("Ace");
@@ -224,8 +256,8 @@ void printCard(struct deck deck){
 		default:
 			printf("%d", deck.value);
 	}
-	printf(" of ", deck.value);
-	printf("%s", cardSuit[deck.suit]);
+	printf(FORM_END" of ", deck.value);
+	printf(FORM_RED"%s"FORM_END, cardSuit[deck.suit]);
 }
 
 //Prints out all card values in deck - for testing purpouses
