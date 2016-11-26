@@ -6,6 +6,7 @@ For C programming practice.
 Struct for decks
 Values 
 01: ACE 
+02-10 VALUES 2-10
 11: JACK 
 12: QUEEN
 13: KING
@@ -15,7 +16,6 @@ Suits
 1: DIAMONDS
 2: CLUBS
 3: SPADES
-
 
 TODO:
 Betting
@@ -31,15 +31,16 @@ Dealer
 
 #define SUITS 4
 #define CARDS 52
-#define DECKS 6
-#define SHUFFLES 10000
-#define CHIPS 500
+#define DECKS 6	//Amount of decks in play
+#define SHUFFLES 10000 //Amount of random card swaps - "Shuffle"
+#define CHIPS 500	//Amount of player starting chips
 
 struct deck{
 	int suit;
 	int value; 
 };
 
+//For printing out suit name
 char *cardSuit[4] ={
 		"Hearts",
 		"Diamonds",
@@ -62,6 +63,8 @@ void shuffleDeck(struct deck *deck);
 bool checkDeck(struct deck *deck);
 void setScore(struct deck deck, int *score1, int *score2);
 void displayScore(int *score1, int *score2);
+void bet(int *chips);
+void deal(struct deck *deck, int *cardIndex);
 
 int main(){
 	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS;
@@ -82,10 +85,9 @@ int main(){
 	printLine('*', 25, 1);
 
 	//First deal, get two cards and display score:
-	printf("You got dealt:\n");
 	for(int i=0;i<2;i++){
-		printCard(deck[cardIndex]);
-		if(!i){
+		deal(deck, &cardIndex);
+		if(!i){ //Prints a newline after first displayed card
 			printf("\n");
 		}
 		setScore(deck[cardIndex], &score1, &score2);
@@ -97,10 +99,9 @@ int main(){
 		printf("1: Hit - 2: Stand. INPUT: ");
 		scanf("%d", &choice);
 		if(choice == 1){
-			printCard(deck[cardIndex]);
+			deal(deck, &cardIndex);
 			setScore(deck[cardIndex], &score1, &score2);
 			displayScore(&score1, &score2);
-			cardIndex++;
 		}
 		if((score1 > 21) && (score2 > 21)){
 			printf("Bust!");
@@ -108,6 +109,18 @@ int main(){
 		}
 	}
 	return 0;
+}
+
+void deal(struct deck *deck, int *cardIndex){
+	printf("You got dealt:\n");
+	printCard(deck[*cardIndex]);
+	*cardIndex++;
+}
+
+void bet(int *chips){
+	printf("Enter amount to bet: ");
+	int betAmount;
+	scanf("%d", &betAmount);
 }
 
 //Sets card values to deck in play
@@ -165,7 +178,9 @@ bool checkDeck(struct deck *deck){
 					}
 				cardNo++;
 			}
-			if(cardCount != DECKS){
+			//If function found more, or less cards of a certain type, 
+			//than amount of decks in play
+			if(cardCount != DECKS){ 
 				return false;
 			}
 		}
@@ -177,6 +192,7 @@ void shuffleDeck(struct deck *deck){
 	int tempValue, tempSuit;
 	int card1 = 0; 
 	int card2 = 0;
+	//Randomizes two cards to swap values
 	do{
 		card1 = rand() % deckSize;
 		card2 = rand() % deckSize;
@@ -212,7 +228,7 @@ void printCard(struct deck deck){
 	printf("%s", cardSuit[deck.suit]);
 }
 
-//Prints out all card values in deck
+//Prints out all card values in deck - for testing purpouses
 void printDeck(struct deck *deck){
 	for(int i=0; i<deckSize; i++){
 		printf("CARD #%d: ", i);
