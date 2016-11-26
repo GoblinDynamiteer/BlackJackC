@@ -15,17 +15,25 @@ Suits
 1: DIAMONDS
 2: CLUBS
 3: SPADES
+
+
+TODO:
+Betting
+Dealer
+
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include "libtxt.h"
 
 #define SUITS 4
 #define CARDS 52
 #define DECKS 6
-#define SHUFFLES 5000
+#define SHUFFLES 10000
+#define CHIPS 500
 
 struct deck{
 	int suit;
@@ -53,9 +61,10 @@ void shuffleDeck(struct deck *deck);
 //Checks if deck contains valid cards
 bool checkDeck(struct deck *deck);
 void setScore(struct deck deck, int *score1, int *score2);
+void displayScore(int *score1, int *score2);
 
 int main(){
-	int score1 = 0, score2 = 0, dealerScore = 0, cardIndex = 0, choice = 0;
+	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS;
 	srand(time(NULL));
 	struct deck deck[deckSize];
 	setCards(deck);
@@ -66,20 +75,31 @@ int main(){
 		printf("The deck wasn't shuffled correctly!");
 		return 1;
 	}
-	//First deal:
+	//printLine prints a char x times, last argument toggles newline before and after
+	system("cls");
+	printLine('*', 25, 1);
+	printf("Welcome to "FORM_RED"BLACKJACK C"FORM_END"!");
+	printLine('*', 25, 1);
+
+	//First deal, get two cards and display score:
+	printf("You got dealt:\n");
 	for(int i=0;i<2;i++){
 		printCard(deck[cardIndex]);
+		if(!i){
+			printf("\n");
+		}
 		setScore(deck[cardIndex], &score1, &score2);
-		printf("Score: %d / %d\n\n", score1, score2);
 		cardIndex++;
 	}
+	displayScore(&score1, &score2);
+	
 	while(1){
 		printf("1: Hit - 2: Stand. INPUT: ");
 		scanf("%d", &choice);
 		if(choice == 1){
 			printCard(deck[cardIndex]);
 			setScore(deck[cardIndex], &score1, &score2);
-			printf("Score: %d / %d\n\n", score1, score2);
+			displayScore(&score1, &score2);
 			cardIndex++;
 		}
 		if((score1 > 21) && (score2 > 21)){
@@ -119,6 +139,18 @@ void setScore(struct deck deck, int *score1, int *score2){
 		*score2 += 10;
 	}
 	return;
+}
+
+//Displays score
+void displayScore(int *score1, int *score2){
+	printLine('-', 25, 1);
+	if(*score1 == *score2){
+		printf("Your Score: %d", *score1);
+	}
+	else{
+		printf("Your Score: %d / %d", *score1, *score2);
+	}
+	printLine('-', 25, 1);
 }
 
 //Checks if deck contains valid cards
@@ -177,7 +209,7 @@ void printCard(struct deck deck){
 			printf("%d", deck.value);
 	}
 	printf(" of ", deck.value);
-	printf("%s\n", cardSuit[deck.suit]);
+	printf("%s", cardSuit[deck.suit]);
 }
 
 //Prints out all card values in deck
