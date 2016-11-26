@@ -3,8 +3,9 @@
 BlackJack by Johan Kämpe! 
 For C programming practice.
 
-Rules from http://www.bicyclecards.com/how-to-play/blackjack/
-
+Rules from 
+http://www.bicyclecards.com/how-to-play/blackjack/
+http://www.cherryapp.se/casino-school/
 
 
 Struct for decks:
@@ -42,6 +43,8 @@ BlackJack Score (ACE+10 first deal)
 #define SHUFFLES 10000 //Amount of random card swaps - "Shuffle"
 #define CHIPS 500	//Amount of player starting chips
 #define LINELEN 30
+#define MAXBET 70 //Swedish Pub/club limits
+#define MINBET 20 //Swedish Pub/club limits
 
 struct deck{
 	int suit;
@@ -73,10 +76,13 @@ void setScore(struct deck deck, int *score1, int *score2);
 void displayScore(int *score1, int *score2);
 //Asks for bet amount, returns value. Subtracts from chip pool
 int bet(int *chips);
-void deal(struct deck *deck, int *cardIndex);
+void dealPlayer(struct deck *deck, int *cardIndex);
+void dealDealer(struct deck *deck, int *cardIndex);
+bool dealerDraw(int *dscore1, int *dscore2);
 
 int main(){
 	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS, currentBet = 0;
+	bool play = 1;
 	srand(time(NULL));
 	struct deck deck[deckSize];
 	setCards(deck);
@@ -95,41 +101,85 @@ int main(){
 	printf("Welcome to "FORM_RED"BLACKJACK C"FORM_END"!");
 	printLine('*', LINELEN, 1);
 	//Initial bet
-	currentBet = bet(&chips);
-	//First deal, get dealed two cards and display score:
-	for(int i=0;i<2;i++){
-		deal(deck, &cardIndex);
-		if(!i){ //Prints a newline after first displayed card
-			printf("\n");
-		}
-		setScore(deck[cardIndex], &score1, &score2);
-		cardIndex++;
-	}
-	displayScore(&score1, &score2);
-	
-	while(1){
-		printf("1: Hit - 2: Stand. Enter: ");
-		scanf("%d", &choice);
-		if(choice == 1){
-			deal(deck, &cardIndex);
+	while(play){
+		score1 = 0;
+		score2 = 0;
+		dealerScore1 = 0;
+		dealerScore2 = 0;
+		currentBet = bet(&chips);
+		//Get dealed two cards
+		for(int i=0;i<2;i++){
+			dealPlayer(deck, &cardIndex);
+			if(!i){ //Prints a newline after first displayed card
+				printf("\n");
+			}
 			setScore(deck[cardIndex], &score1, &score2);
 			cardIndex++;
+		}
+		dealDealer(deck, &cardIndex);
+		setScore(deck[cardIndex], &dealerScore1, &dealerScore2);
+		while(1){
+			printLine('-', LINELEN, 1);
+			printf("Your score: "FORM_CYAN_DARK);
 			displayScore(&score1, &score2);
-		}
-		if(choice == 2){
-			;
-		}
-		if((score1 > 21) && (score2 > 21)){
-			printf("Bust!");
-			break;
+			printf("\nDealer score: "FORM_CYAN_DARK);
+			displayScore(&dealerScore1, &dealerScore2);
+			printLine('-', LINELEN, 1);
+			printf("1: Hit - 2: Stand.\nEnter: ");
+			scanf("%d", &choice);
+			if(choice == 1){
+				dealPlayer(deck, &cardIndex);
+				setScore(deck[cardIndex], &score1, &score2);
+				cardIndex++;
+			}
+			if(choice == 2){
+				while(dealerDraw(&dealerScore1, &dealerScore2)){
+					dealDealer(deck, &cardIndex);
+					setScore(deck[cardIndex], &dealerScore1, &dealerScore2);
+					cardIndex++;
+					printLine('-', LINELEN, 1);
+					printf("Your score: "FORM_CYAN_DARK);
+					displayScore(&score1, &score2);
+					printf("\nDealer score: "FORM_CYAN_DARK);
+					displayScore(&dealerScore1, &dealerScore2);
+					printLine('-', LINELEN, 1);
+					if((dealerScore1 > 21) && (dealerScore2 > 21)){
+						printf("\nDealer bust!\nYou Win!");
+						printf("+%d credits!", currentBet);
+						chips += currentBet;
+						break;
+					}
+				}
+			}
+			if((score1 > 21) && (score2 > 21)){
+				printf("\nBust! - New game\n");
+				break;
+			}
 		}
 	}
 	return 0;
 }
 
-void deal(struct deck *deck, int *cardIndex){
+void dealPlayer(struct deck *deck, int *cardIndex){
 	printf("You got dealt: ");
 	printCard(deck[*cardIndex]);
+}
+
+void dealDealer(struct deck *deck, int *cardIndex){
+	printf("\nDealer got: ");
+	printCard(deck[*cardIndex]);
+}
+
+
+//Determins if dealer shall draw another card
+//Dealer must stay if score is >= 17
+bool dealerDraw(int *dscore1, int *dscore2){
+	if (*dscore1 < 17 && *dscore2 < 17){
+		return 1;
+	}
+	if (*dscore1 >= 17 || *dscore1 >= 17){
+		return 0;
+	}
 }
 
 int bet(int *chips){
@@ -138,7 +188,11 @@ int bet(int *chips){
 		printf("You have %d credits.\n", *chips);
 		printf("Enter amount to bet: ");
 		scanf("%d", &betAmount);
-		if(betAmount > *chips){
+		if(betAmount > MAXBET || betAmount < MINBET){
+			printf("Max bet: %d, min bet: %d\n", MAXBET, MINBET);
+			continue;
+		}
+		else if(betAmount > *chips){
 			printf("Not enouch credits!\n");
 			continue;
 		}
@@ -173,7 +227,7 @@ void setScore(struct deck deck, int *score1, int *score2){
 		*score2 += deck.value;
 	}
 	else if(deck.value == 1){
-		*score1 += deck.value-1;
+		*score1 += deck.value;
 		*score2 += 11;
 	}
 	else{
@@ -183,18 +237,24 @@ void setScore(struct deck deck, int *score1, int *score2){
 	return;
 }
 
-//Displays player score
+//Displays score
 void displayScore(int *score1, int *score2){
-	printLine('-', LINELEN, 1);
-	printf("Your score: "FORM_CYAN_DARK);
+	//printLine('-', LINELEN, 1);
+	//printf("Your score: "FORM_CYAN_DARK);
 	if(*score1 == *score2){
+		printf("%d", *score1);
+	}
+	else if(*score1 > 21 && *score2 < 21){
+		printf("%d", *score2);
+	}
+	else if(*score2 > 21 && *score1 < 21){
 		printf("%d", *score1);
 	}
 	else{
 		printf("%d / %d", *score1, *score2);
 	}
 	printf(FORM_END);
-	printLine('-', LINELEN, 1);
+	//printLine('-', LINELEN, 1);
 }
 
 //Checks if deck contains valid cards
