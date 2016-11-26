@@ -35,6 +35,7 @@ BlackJack Score (ACE+10 first deal)
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <windows.h>
 #include "libtxt.h"
 
 #define SUITS 4
@@ -151,6 +152,7 @@ int main(){
 						play2 = 0;
 						break;
 					}
+					Sleep(1000);
 				}
 				if(play2){
 					winCheck = checkWinner(dealerScore1, dealerScore2, score1, score2);
