@@ -34,6 +34,9 @@ Insurance (Dealer draws ACE as first card)
 BlackJack Score (ACE+10 first deal)
 GUI with curses lib?
 
+BUGS:
+Dealer doesnt win on 11 / 21 vs 19 score
+
 */
 
 #include <stdio.h>
@@ -89,7 +92,9 @@ int checkWinner(int dscore1, int dscore2, int score1, int score2);
 
 int main(){
 	//Could set variables as globals, functions would not need arguments
-	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS, currentBet = 0, winCheck;
+	int score1 = 0, score2 = 0, dealerScore1 = 0;
+	int dealerScore2 = 0, cardIndex = 0, choice = 0;
+	int chips = CHIPS, currentBet = 0, winCheck;
 	bool play = 1, play2 = 1;
 	srand(time(NULL));
 	struct deck deck[deckSize];
@@ -101,7 +106,8 @@ int main(){
 		printf("The deck wasn't shuffled correctly!");
 		return 1;
 	}
-	//Clears the screen (for Windows CMD), needed for ANSI color formatting of text
+	//Clears the screen (for Windows CMD), needed for 
+	//ANSI color formatting of text
 	system("cls");
 	//printLine prints a char-variable # times, last argument toggles
 	//if newline should be printed before and after the line 1-on 0-off
@@ -153,7 +159,7 @@ int main(){
 					displayScore(&dealerScore1, &dealerScore2);
 					printLine('-', LINELEN, 1);
 					if((dealerScore1 > 21) && (dealerScore2 > 21)){
-						printf("\nDealer bust!\n");
+						printf(FORM_GREEN"\n<<Dealer bust!>>\n"FORM_END);
 						winCheck = 2;
 						play2 = 0;
 						break;
@@ -161,29 +167,33 @@ int main(){
 					Sleep(1000);
 				}
 				if(play2){
-					winCheck = checkWinner(dealerScore1, dealerScore2, score1, score2);
+					winCheck = checkWinner(
+						dealerScore1, dealerScore2, score1, score2);
 				}
 				if(winCheck == 1){
-					printf("\nDealer wins!\n");
+					printf(FORM_RED"\n<<Dealer wins!>>\n"FORM_END);
 					play2 = 0;
 					break;
 				}
 				else if(winCheck == 2){
-					printf("\nYou Win!");
-					printf("+%d credits!\n", currentBet);
+					printf(FORM_GREEN"\n<<You Win!>>"FORM_END);
+					printf("\n+%d credits!\n", currentBet);
 					chips += (currentBet*2);
 					play2 = 0;
 					break;
 				}
 				else if(winCheck == 3){
-					printf("\nDraw!\n");
+					printf(FORM_YELLOW"\n<<Draw!>>\n"FORM_END);
 					chips += currentBet;
 					play2 = 0;
 					break;
 				}
 			}
 			if((score1 > 21) && (score2 > 21)){
-				printf("\nBust! - New game\n");
+				
+				printf(FORM_RED"\n<<Bust!>>\n"FORM_END);
+				printf("Score: ");
+				displayScore(&score1, &score2);
 				break;
 			}
 		}
@@ -247,19 +257,21 @@ int checkWinner(int dscore1, int dscore2, int score1, int score2){
 	else if(dscore2 > 21 && dscore1 < 21){
 		dealerScore = dscore1;
 	}
-	if(dealerScore > playerScore || (	(dealerScore == playerScore) && (dealerScore < 20)	)	){
+	if(dealerScore > playerScore || 
+	(	(dealerScore == playerScore) && (dealerScore < 20)	)	){
 		return 1;
 	}
 	else if(dealerScore < playerScore){
 		return 2;
 	}
-	else if((dealerScore == playerScore) && (dealerScore >= 20)	){
+	else if((dealerScore == playerScore) && 
+		(dealerScore >= 20)	){
 		return 3;
 	}
 }
 
-
-
+//Asks for bet amount and checks if correct, according to 
+//"house-rules" defined in MINBET/MAXBET macros
 int bet(int *chips){
 	int betAmount;
 	while(1){
@@ -318,17 +330,18 @@ void setScore(struct deck deck, int *score1, int *score2){
 
 //Displays score
 void displayScore(int *score1, int *score2){ //Change from pointers, not needed
+	printf("\t");
 	if(*score1 == *score2){
-		printf("%d", *score1);
+		printf("%2d", *score1);
 	}
 	else if(*score1 > 21 && *score2 < 21){
-		printf("%d", *score2);
+		printf("%2d", *score2);
 	}
 	else if(*score2 > 21 && *score1 < 21){
-		printf("%d", *score1);
+		printf("%2d", *score1);
 	}
 	else{
-		printf("%d / %d", *score1, *score2);
+		printf("%2d / %2d", *score1, *score2);
 	}
 	printf(FORM_END);
 }
