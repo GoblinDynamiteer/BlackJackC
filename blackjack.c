@@ -1,7 +1,8 @@
 /* 
 
 BlackJack by Johan Kämpe! 
-For C programming practice.
+For C programming & english language practice.
+
 
 Rules from 
 http://www.bicyclecards.com/how-to-play/blackjack/
@@ -25,9 +26,13 @@ Suits
 
 
 TODO:
-Betting
-Dealer
+Betting 		**DONE!**
+Dealer	 	**In progress**
+Split
+Raise
+Insurance (Dealer draws ACE as first card)
 BlackJack Score (ACE+10 first deal)
+GUI with curses lib?
 
 */
 
@@ -83,6 +88,7 @@ bool dealerDraw(int *dscore1, int *dscore2);
 int checkWinner(int dscore1, int dscore2, int score1, int score2);
 
 int main(){
+	//Could set variables as globals, functions would not need arguments
 	int score1 = 0, score2 = 0, dealerScore1 = 0, dealerScore2 = 0, cardIndex = 0, choice = 0, chips = CHIPS, currentBet = 0, winCheck;
 	bool play = 1, play2 = 1;
 	srand(time(NULL));
@@ -128,8 +134,8 @@ int main(){
 			printf("\nDealer score: "FORM_CYAN_DARK);
 			displayScore(&dealerScore1, &dealerScore2);
 			printLine('-', LINELEN, 1);
-			printf("1: Hit - 2: Stand.\nEnter: ");
-			scanf("%d", &choice);
+			printf("1: Hit - 2: Stand.\nEnter: "); //temporary -- fix split/raise/etc
+			scanf("%d", &choice); //Fix instant keypress
 			if(choice == 1){
 				dealPlayer(deck, &cardIndex);
 				setScore(deck[cardIndex], &score1, &score2);
@@ -199,12 +205,23 @@ void dealDealer(struct deck *deck, int *cardIndex){
 //Determins if dealer shall draw another card
 //Dealer must stay if score is >= 17
 bool dealerDraw(int *dscore1, int *dscore2){
+	bool dealerDraw;
+	//Dealer is under 17
 	if (*dscore1 < 17 && *dscore2 < 17){
-		return 1;
+		dealerDraw = 1;
 	}
-	if (*dscore1 >= 17 || *dscore1 >= 17){
-		return 0;
+	//Dealer has gotten ace
+	else if (*dscore1 > 21 && *dscore2 < 17){
+		dealerDraw = 1;
 	}
+	else if (*dscore2 > 21 && *dscore1 < 17){
+		dealerDraw = 1;
+	}
+	//dealer has 17 or over
+	else if (*dscore1 >= 17 || *dscore2 >= 17){
+		dealerDraw = 0;
+	}
+	return dealerDraw;
 }
 
 //Checks who is the winner, returns 1 if dealer, 2 if player, 3 if draw
@@ -282,6 +299,7 @@ void setCards(struct deck *deck){
 	return;
 }
 
+//Sets score for player and dealer -- send adresses to score variables as argument
 void setScore(struct deck deck, int *score1, int *score2){
 	if((deck.value > 1) && (deck.value < 11)){
 		*score1 += deck.value;
@@ -299,9 +317,7 @@ void setScore(struct deck deck, int *score1, int *score2){
 }
 
 //Displays score
-void displayScore(int *score1, int *score2){
-	//printLine('-', LINELEN, 1);
-	//printf("Your score: "FORM_CYAN_DARK);
+void displayScore(int *score1, int *score2){ //Change from pointers, not needed
 	if(*score1 == *score2){
 		printf("%d", *score1);
 	}
@@ -315,7 +331,6 @@ void displayScore(int *score1, int *score2){
 		printf("%d / %d", *score1, *score2);
 	}
 	printf(FORM_END);
-	//printLine('-', LINELEN, 1);
 }
 
 //Checks if deck contains valid cards
@@ -340,6 +355,7 @@ bool checkDeck(struct deck *deck){
 	return true;
 }
 
+//Swaps two cards in the deck
 void shuffleDeck(struct deck *deck){
 	int tempValue, tempSuit;
 	int card1 = 0; 
