@@ -33,9 +33,10 @@ Raise
 Insurance (Dealer draws ACE as first card)
 BlackJack Score (ACE+10 first deal)
 GUI with curses lib?
+Fix so player can exit game, by setting play = 0
 
 BUGS:
-Dealer doesnt win on 11 / 21 vs 19 score
+Dealer doesn't win on 11 / 21 vs 19 score
 
 */
 
@@ -44,12 +45,16 @@ Dealer doesnt win on 11 / 21 vs 19 score
 #include <time.h>
 #include <stdbool.h>
 #include <windows.h>
+
+//Own lib, contains macros for ANSI color coding
+//File has comments in Swedish
 #include "libtxt.h"
 
 #define SUITS 4
 #define CARDS 52
 #define DECKS 6	//Amount of decks in play
-#define SHUFFLES 10000 //Amount of random card swaps - "Shuffle"
+//Amount of random card swaps, for shuffling the decks
+#define SHUFFLES 10000 
 #define CHIPS 500	//Amount of player starting chips
 #define LINELEN 30 //Lenght of "lines"
 #define MAXBET 70 //Swedish Pub/club limits
@@ -115,7 +120,7 @@ int main(){
 	printf("Welcome to "FORM_RED"BLACKJACK C"FORM_END"!");
 	printLine('*', LINELEN, 1);
 	//Initial bet
-	while(play){
+	while(play){ 
 		play2 = 1;
 		score1 = 0;
 		score2 = 0;
@@ -141,7 +146,7 @@ int main(){
 			displayScore(&dealerScore1, &dealerScore2);
 			printLine('-', LINELEN, 1);
 			printf("1: Hit - 2: Stand.\nEnter: "); //temporary -- fix split/raise/etc
-			scanf("%d", &choice); //Fix instant keypress
+			scanf("%d", &choice); //Fix instant keypress with getch
 			if(choice == 1){
 				dealPlayer(deck, &cardIndex);
 				setScore(deck[cardIndex], &score1, &score2);
@@ -220,7 +225,8 @@ bool dealerDraw(int *dscore1, int *dscore2){
 	if (*dscore1 < 17 && *dscore2 < 17){
 		dealerDraw = 1;
 	}
-	//Dealer has gotten ace
+	//Dealer has gotten ace, and got busted on score 1||2
+	//Shall draw another card
 	else if (*dscore1 > 21 && *dscore2 < 17){
 		dealerDraw = 1;
 	}
@@ -411,6 +417,7 @@ void printCard(struct deck deck){
 }
 
 //Prints out all card values in deck - for testing purpouses
+//Currently not used
 void printDeck(struct deck *deck){
 	for(int i=0; i<deckSize; i++){
 		printf("CARD #%d: ", i);
