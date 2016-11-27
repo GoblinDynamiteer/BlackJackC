@@ -37,6 +37,9 @@ Fix so player can exit game, by setting play = 0
 
 BUGS:
 Dealer doesn't win on 11 / 21 vs 19 score
+Dealer doesn't win on 21 / 41 vs 18 score
+Dealer final score shows xx / xx instead of single score
+Same card get dealt twice in row often **FIXED**
 
 */
 
@@ -121,6 +124,9 @@ int main(){
 	printLine('*', LINELEN, 1);
 	//Initial bet
 	while(play){ 
+		printLine('*', LINELEN, 1);
+		printf(FORM_GREEN"NEW DEAL"FORM_END);
+		printLine('*', LINELEN, 1); 	
 		play2 = 1;
 		score1 = 0;
 		score2 = 0;
@@ -138,6 +144,7 @@ int main(){
 		}
 		dealDealer(deck, &cardIndex);
 		setScore(deck[cardIndex], &dealerScore1, &dealerScore2);
+		cardIndex++;
 		while(play2){
 			printLine('-', LINELEN, 1);
 			printf("Your score: "FORM_CYAN_DARK);
