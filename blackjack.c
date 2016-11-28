@@ -38,9 +38,12 @@ Fix so player can exit game, by setting play = 0
 BUGS:
 Dealer doesn't win on 11 / 21 vs 19 score
 Dealer doesn't win on 21 / 41 vs 18 score
-Dealer final score shows xx / xx instead of single score
+Dealer doesn't win on 10 / 20 vs 19 score
+Dealer final score shows xx / xx instead of single score **FIXED**
 Same card get dealt twice in row often **FIXED**
-
+User gets natural blackjak twice in row, even if cards isn't 11/10
+Uer doesn't get naural blackjack at all instances when it should trigger
+Ace/ace doesnt show as 2/12
 */
 
 #include <stdio.h>
@@ -97,6 +100,7 @@ void dealPlayer(struct deck *deck, int *cardIndex);
 void dealDealer(struct deck *deck, int *cardIndex);
 bool dealerDraw(int *dscore1, int *dscore2);
 int checkWinner(int dscore1, int dscore2, int score1, int score2);
+bool checkNaturalBlackJack(int *score1, int *sccore2);
 
 int main(){
 	//Could set variables as globals, functions would not need arguments
@@ -123,7 +127,7 @@ int main(){
 	printf("Welcome to "FORM_RED"BLACKJACK C"FORM_END"!");
 	printLine('*', LINELEN, 1);
 	//Initial bet
-	while(play){ 
+	while(play){
 		printLine('*', LINELEN, 1);
 		printf(FORM_GREEN"NEW DEAL"FORM_END);
 		printLine('*', LINELEN, 1); 	
@@ -142,9 +146,17 @@ int main(){
 			setScore(deck[cardIndex], &score1, &score2);
 			cardIndex++;
 		}
-		dealDealer(deck, &cardIndex);
-		setScore(deck[cardIndex], &dealerScore1, &dealerScore2);
-		cardIndex++;
+		if(checkNaturalBlackJack(&score1, &score2)){
+			printf(FORM_GREEN"\n<<Blackjack!!>>\n"FORM_END);
+			printf("\n+%2.0f credits!\n", (float)currentBet*1.5);
+			chips += ((currentBet*2) + (float)currentBet/2);
+			play2 = 0;
+		}
+		else{
+			dealDealer(deck, &cardIndex);
+			setScore(deck[cardIndex], &dealerScore1, &dealerScore2);
+			cardIndex++;
+		}
 		while(play2){
 			printLine('-', LINELEN, 1);
 			printf("Your score: "FORM_CYAN_DARK);
@@ -202,7 +214,6 @@ int main(){
 				}
 			}
 			if((score1 > 21) && (score2 > 21)){
-				
 				printf(FORM_RED"\n<<Bust!>>\n"FORM_END);
 				printf("Score: ");
 				displayScore(&score1, &score2);
@@ -223,6 +234,13 @@ void dealDealer(struct deck *deck, int *cardIndex){
 	printCard(deck[*cardIndex]);
 }
 
+//Checks if player got natural blackjack at first deal
+bool checkNaturalBlackJack(int *score1, int *score2){
+	if(*score1 == 21 || *score2 == 21){
+		return 1;
+	}
+	return 0;
+}
 
 //Determins if dealer shall draw another card
 //Dealer must stay if score is >= 17
@@ -252,24 +270,40 @@ bool dealerDraw(int *dscore1, int *dscore2){
 //Draw at 20, 21 or Black Jack
 int checkWinner(int dscore1, int dscore2, int score1, int score2){
 	int playerScore, dealerScore;
+	//Checks for setting playerScore:
 	if(score1 == score2){
 		playerScore = score1;
 	}
-	else if(score1 > 21 && score2 < 21){
+	else if(score1 > 21 && score2 <= 21){
 		playerScore = score2;
 	}
-	else if(score2 > 21 && score1 < 21){
+	else if(score2 > score1 && score2 <=21){
+		playerScore = score2;
+	}
+	else if(score1 > score2 && score1 <=21){
 		playerScore = score1;
 	}
+	else if(score2 > 21 && score1 <= 21){
+		playerScore = score1;
+	}
+	//Checks for setting dealerScore:
 	if(dscore1 == dscore2){
 		dealerScore = dscore1;
 	}
-	else if(dscore1 > 21 && dscore2 < 21){
+	else if(dscore1 > 21 && dscore2 <= 21){
 		dealerScore = dscore2;
 	}
-	else if(dscore2 > 21 && dscore1 < 21){
+	else if(dscore2 > 21 && dscore1 <= 21){
 		dealerScore = dscore1;
 	}
+	//eg. [sc1: 10 / sc2: 20] -> [sc2 > sc1] && [sc2<= 21] ----> dealerscore = sc2
+	else if(dscore2 > dscore1 && dscore2 <= 21){
+		dealerScore = dscore2;
+	}
+	else if(dscore1 > dscore2 && dscore1 <= 21){
+		dealerScore = dscore1;
+	}
+	printf(FORM_BLUE"** DEBUG: DealerScore: %d vs PlayerScore: %d **"FORM_END, dealerScore, playerScore);
 	if(dealerScore > playerScore || 
 	(	(dealerScore == playerScore) && (dealerScore < 20)	)	){
 		return 1;
@@ -347,11 +381,20 @@ void displayScore(int *score1, int *score2){ //Change from pointers, not needed
 	if(*score1 == *score2){
 		printf("%2d", *score1);
 	}
-	else if(*score1 > 21 && *score2 < 21){
+	else if(*score1 > 21 && *score2 <= 21){
 		printf("%2d", *score2);
 	}
-	else if(*score2 > 21 && *score1 < 21){
+	else if(*score2 > 21 && *score1 <= 21){
 		printf("%2d", *score1);
+	}
+	else if(*score2 > 21 && *score1 > 21){
+		if(*score1 < *score2){
+			printf("%2d", *score1);
+		}
+		else{
+			printf("%2d", *score2);
+		}
+		
 	}
 	else{
 		printf("%2d / %2d", *score1, *score2);
