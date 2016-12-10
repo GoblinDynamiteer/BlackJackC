@@ -19,3 +19,5 @@ Future version might have a simple GUI made with curses lib, if I can pull that 
 ![Shot 1](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img001.png)
 
 ![Shot 2](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img003.PNG)
+
+![Shot 3](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img004.PNG)
