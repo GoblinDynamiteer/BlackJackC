@@ -10,26 +10,23 @@
 
 /*	 Sets cards to decks	*/
 bool setCards(game * game){
-
 	int count = 0;
 	int value = ACE;
 	int suit;
-
 	for(int deck = 0; deck < DECKS; deck++){
 		suit = HEARTS;
 		for(int card = 0; card < DECK_SIZE; card++){
+			assert(suit < SUITS_MAX);
+			assert(value < VALUES_MAX);
 			game->deck[deck].card[card].value = value++;
 			game->deck[deck].card[card].suit = suit;
 			if(value == VALUES_MAX){
 				value = ACE;
 				suit++;
 			}
-			//printCardName(game, game->deck[deck].card[card]);
-			assert(suit <= SUITS_MAX);
 			count++;
 		}
 	}
-
 	assert(count == DECK_SIZE * DECKS);
 	return (count == DECK_SIZE * DECKS);
 }
