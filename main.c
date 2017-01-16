@@ -1,7 +1,6 @@
 /* 
 
-BlackJack by Johan Kämpe! 
-
+BlackJack by Johan Kï¿½mpe!
 Rules from 
 http://www.bicyclecards.com/how-to-play/blackjack/
 http://www.cherryapp.se/casino-school/
@@ -15,9 +14,14 @@ int main(){
 	/*	 Init game struct */
 	game game;
 
+	initRandom();
+
 	if(!setCardsNames(&game) || !setCards(&game)){
 		printf("Setting up game failed!");
 	}
+
+	shuffleDeck(&game, SHUFFLES);
+	printDeck(&game);
 
 	return 0;
 }

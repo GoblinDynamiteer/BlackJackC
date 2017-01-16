@@ -8,6 +8,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <time.h>
 
 /*	 Card values	*/
 enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
@@ -17,6 +18,8 @@ enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 
 #define DECK_SIZE 52
 #define DECKS 6
+
+#define SHUFFLES 50000
 
 typedef struct card{
 	int value;
@@ -38,6 +41,13 @@ typedef struct game{
 bool setCards(game * game);
 bool setCardsNames(game * game);
 void printCardName(game * game, card card);
+void printDeck(game * game);
+void shuffleDeck(game * game, int cardSwaps);
+void swapCards(game * game, int deck1, int card1, int deck2, int card2);
+
+/*	 num.c	*/
+int getRandomNumber(int max);
+void initRandom();
 
 #endif /* DEF_H_ */
 

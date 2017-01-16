@@ -77,9 +77,45 @@ bool setCardsNames(game * game){
 	return (count == SUITS_MAX + VALUES_MAX);
 }
 
+void shuffleDeck(game * game, int cardSwaps){
+	int deck1 = 1, deck2 = 1, card1, card2;
+	for(int i = 0; i< cardSwaps; i++){
+		do {
+			deck1 = getRandomNumber(DECKS);
+			deck2 = getRandomNumber(DECKS);
+			card1 = getRandomNumber(DECK_SIZE);
+			card2 = getRandomNumber(DECK_SIZE);
+		} while(deck1 == deck2 && card1 == card2);
+
+		swapCards(game, deck1, card1, deck2, card2);
+	}
+}
+
+/*	 Swaps values of two card structs	*/
+void swapCards(game * game, int deck1, int card1, int deck2, int card2){
+	int tempValue, tempSuit;
+	tempValue = game->deck[deck1].card[card1].value;
+	tempSuit = game->deck[deck1].card[card1].suit;
+	game->deck[deck1].card[card1].value = game->deck[deck2].card[card2].value;
+	game->deck[deck1].card[card1].suit = game->deck[deck2].card[card2].suit;
+	game->deck[deck2].card[card2].value = tempValue;
+	game->deck[deck2].card[card2].suit = tempSuit;
+}
+
+/*	 Print a card in text-form, e.g. "Ace of Spades"	*/
 void printCardName(game * game, card card){
 	printf("%s of %s\n",
 			game->cardValues[card.value],
 			game->cardSuits[card.suit]
 	);
+}
+
+/*	Prints all decks, mostly for debugging	*/
+void printDeck(game * game){
+	for(int deck = 0; deck < DECKS; deck++){
+		for(int card = 0; card < DECK_SIZE; card++){
+			printf("Deck[%d] - Card [%d]: ", deck, card);
+			printCardName(game, game->deck[deck].card[card]);
+		}
+	}
 }
