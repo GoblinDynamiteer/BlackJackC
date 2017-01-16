@@ -19,6 +19,7 @@ enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 #define DECK_SIZE 52
 #define DECKS 6
 
+#define START_CREDITS 1000
 #define SHUFFLES 50000
 
 typedef struct card{
@@ -29,6 +30,16 @@ typedef struct card{
 typedef struct deck{
 	card card[DECK_SIZE];
 }deck;
+
+typedef struct player{
+	int credits;
+	int score1, score2;
+}player;
+
+typedef struct dealer{
+	int score1, score2;
+	bool mustDraw;
+}dealer;
 
 typedef struct game{
 	deck deck[DECKS];
