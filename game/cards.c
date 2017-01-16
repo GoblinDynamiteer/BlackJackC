@@ -99,6 +99,25 @@ void swapCards(game * game, int deck1, int card1, int deck2, int card2){
 	game->deck[deck2].card[card2].suit = tempSuit;
 }
 
+/*	 Determines that decks are correctly shuffled	*/
+bool checkShuffle(game *game){
+	int calcCardValues =
+		(ACE+TWO+THREE+FOUR+FIVE+SIX+SEVEN+EIGHT+NINE+TEN+JACK+QUEEN+KING) *
+		SUITS_MAX * DECKS;
+	int calcSuitValues =
+		(HEARTS+DIAMONDS+CLUBS+SPADES) *
+		VALUES_MAX * DECKS;
+	int sumCardValues = 0, sumSuitValues = 0;
+	for(int deck = 0; deck < DECKS; deck++){
+		for(int card = 0; card < DECK_SIZE; card++){
+			sumCardValues += game->deck[deck].card[card].value;
+			sumSuitValues += game->deck[deck].card[card].suit;
+		}
+	}
+	assert (sumCardValues == calcCardValues && calcSuitValues == sumSuitValues);
+	return (sumCardValues == calcCardValues && calcSuitValues == sumSuitValues);
+}
+
 /*	 Print a card in text-form, e.g. "Ace of Spades"	*/
 void printCardName(game * game, card card){
 	printf("%s of %s\n",

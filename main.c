@@ -21,7 +21,13 @@ int main(){
 	}
 
 	shuffleDeck(&game, SHUFFLES);
-	printDeck(&game);
+
+	if(!checkShuffle(&game)){
+		printf("Shuffle failed!");
+	}
+
+	//printDeck(&game);
+
 
 	return 0;
 }

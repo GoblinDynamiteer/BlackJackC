@@ -55,6 +55,7 @@ void printCardName(game * game, card card);
 void printDeck(game * game);
 void shuffleDeck(game * game, int cardSwaps);
 void swapCards(game * game, int deck1, int card1, int deck2, int card2);
+bool checkShuffle(game *game);
 
 /*	 num.c	*/
 int getRandomNumber(int max);
