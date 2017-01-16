@@ -1,6 +1,7 @@
 /* 
 
-BlackJack by Johan Kï¿½mpe!
+BlackJack by Johan Kämpe! 
+
 Rules from 
 http://www.bicyclecards.com/how-to-play/blackjack/
 http://www.cherryapp.se/casino-school/
