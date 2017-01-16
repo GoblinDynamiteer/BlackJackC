@@ -1,1 +1,0 @@
-gcc blackjack.c libtxt.c -o blackjack.exe
