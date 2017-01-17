@@ -69,5 +69,9 @@ bool checkShuffle(game *game);
 int getRandomNumber(int max);
 void initRandom();
 
+/*	 play.c	*/
+void setupGame(game * game);
+card * dealNextCard(game * game);
+
 #endif /* DEF_H_ */
 
