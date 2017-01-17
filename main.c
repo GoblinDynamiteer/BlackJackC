@@ -27,14 +27,34 @@ int main(){
 		printf("Shuffle failed!");
 	}
 
-	//printDeck(&game);
+	printDeck(&game);
+
+	printf("\nDeck print done -- Start dealing test\n");
+	getchar();
+
+	int counter = 0;
 
 	while(1){
 		for(int i = 0; i < MAX_HAND; i++){
+			counter++;
+
 			game.player.hand[i] = NULL;
 			game.player.hand[i] = dealNextCard(&game);
+			if(game.player.hand[i] == NULL){
+				setCards(&game);
+				shuffleDeck(&game, SHUFFLES);
+				printf("\n\n<No more cards -- Shuffling deck>\n");
+				if(!checkShuffle(&game)){
+					printf("<Shuffle failed!>\n\n");
+					break;
+				}
+				printf("<Shuffle correct!>\n\n");
+				game.player.hand[i] = dealNextCard(&game);
+			}
+			printf("Card #%5d - ", counter);
 			printf("Player hand, card %d : ", i+1);
 			printCardName(&game, *game.player.hand[i]);
+
 		}
 		getchar();
 	}
