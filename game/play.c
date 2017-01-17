@@ -2,10 +2,7 @@
 #include "..\def.h"
 
 void setupGame(game * game){
-	game->dealer.score.high = 0;
-	game->dealer.score.low = 0;
-	game->player.score.high = 0;
-	game->player.score.low = 0;
+	resetScore(game);
 
 	game->dealer.mustDraw = YES;
 }
@@ -22,6 +19,13 @@ card * dealNextCard(game * game){
 	}
 	/*	 No more undealt cards	*/
 	return NULL;
+}
+
+void resetScore(game * game){
+	game->dealer.score.high = 0;
+	game->dealer.score.low = 0;
+	game->player.score.high = 0;
+	game->player.score.low = 0;
 }
 
 void addScore(game * game, card card, bool player){
