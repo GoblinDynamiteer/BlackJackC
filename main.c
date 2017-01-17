@@ -16,6 +16,7 @@ int main(){
 	game game;
 
 	initRandom();
+	setupGame(&game);
 
 	if(!setCardsNames(&game) || !setCards(&game)){
 		printf("Setting up game failed!");
@@ -35,7 +36,7 @@ int main(){
 	int counter = 0;
 
 	while(1){
-		for(int i = 0; i < MAX_HAND; i++){
+		for(int i = 0; i < MAX_HAND;){
 			counter++;
 
 			game.player.hand[i] = NULL;
@@ -51,12 +52,27 @@ int main(){
 				printf("<Shuffle correct!>\n\n");
 				game.player.hand[i] = dealNextCard(&game);
 			}
-			printf("Card #%5d - ", counter);
-			printf("Player hand, card %d : ", i+1);
+			printf("[Card #%5d]\n", counter);
+			printf("[Hand %d] : ", i+1);
 			printCardName(&game, *game.player.hand[i]);
-
+			addScore(&game, *game.player.hand[i], PLAYER);
+			printf("[Score: ");
+			if(game.player.score.low <= 21)	{printf("%d",game.player.score.low);}
+			if(game.player.score.high <= 21 &&
+				game.player.score.high != game.player.score.low){
+					printf(" / %d",game.player.score.high);
+			}
+			printf("]");
+			if(game.player.score.low > 21){
+				printf("\n<BUST!> [%d]\n", game.player.score.low);
+				resetScore(&game);
+				i = 0;
+				continue;
+			}
+			getchar();
+			i++;
 		}
-		getchar();
+
 	}
 
 
