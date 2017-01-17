@@ -42,6 +42,7 @@ typedef struct deck{
 typedef struct player{
 	int credits;
 	int score1, score2;
+	card * hand[MAX_HAND];
 }player;
 
 typedef struct dealer{
