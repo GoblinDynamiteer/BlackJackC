@@ -19,6 +19,7 @@ enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 /*	 Misc 1/0	*/
 enum {NO, YES};
 enum {FALSE, TRUE};
+enum {PLAYER, DEALER};
 
 
 #define DECK_SIZE 52
@@ -35,19 +36,23 @@ typedef struct card{
 	bool dealt;
 }card;
 
+typedef struct score{
+	int low, high;
+}score;
+
 typedef struct deck{
 	card card[DECK_SIZE];
 }deck;
 
 typedef struct player{
 	int credits;
-	int score1, score2;
 	card * hand[MAX_HAND];
+	score score;
 }player;
 
 typedef struct dealer{
-	int score1, score2;
 	bool mustDraw;
+	score score;
 }dealer;
 
 typedef struct game{
@@ -55,6 +60,7 @@ typedef struct game{
 	char * cardValues[VALUES_MAX];
 	char * cardSuits[SUITS_MAX];
 	player player;
+	dealer dealer;
 }game;
 
 
@@ -74,6 +80,7 @@ void initRandom();
 /*	 play.c	*/
 void setupGame(game * game);
 card * dealNextCard(game * game);
+void addScore(game * game, card card, bool player);
 
 #endif /* DEF_H_ */
 
