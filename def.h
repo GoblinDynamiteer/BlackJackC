@@ -54,6 +54,7 @@ typedef struct game{
 	deck deck[DECKS];
 	char * cardValues[VALUES_MAX];
 	char * cardSuits[SUITS_MAX];
+	player player;
 }game;
 
 

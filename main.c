@@ -29,6 +29,18 @@ int main(){
 
 	//printDeck(&game);
 
+	while(1){
+		for(int i = 0; i < MAX_HAND; i++){
+			game.player.hand[i] = NULL;
+			game.player.hand[i] = dealNextCard(&game);
+			printf("Player hand, card %d : ", i+1);
+			printCardName(&game, *game.player.hand[i]);
+		}
+		getchar();
+	}
+
+
+
 
 	return 0;
 }

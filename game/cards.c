@@ -133,6 +133,7 @@ void printDeck(game * game){
 		for(int card = 0; card < DECK_SIZE; card++){
 			printf("Deck[%d] - Card [%d]: ", deck, card);
 			printCardName(game, game->deck[deck].card[card]);
+			printf("Dealt: %d\n", game->deck[deck].card[card].dealt);
 		}
 	}
 }
