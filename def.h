@@ -16,11 +16,18 @@ enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KI
 /*	 Card suits	*/
 enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 
+/*	 Misc 1/0	*/
+enum {NO, YES};
+enum {FALSE, TRUE};
+
+
 #define DECK_SIZE 52
 #define DECKS 6
 
 #define START_CREDITS 1000
 #define SHUFFLES 50000
+
+#define MAX_HAND 20
 
 typedef struct card{
 	int value;
