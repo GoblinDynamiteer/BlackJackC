@@ -32,6 +32,7 @@ enum {FALSE, TRUE};
 typedef struct card{
 	int value;
 	int suit;
+	bool dealt;
 }card;
 
 typedef struct deck{

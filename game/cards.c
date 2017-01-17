@@ -20,6 +20,7 @@ bool setCards(game * game){
 			assert(value < VALUES_MAX);
 			game->deck[deck].card[card].value = value++;
 			game->deck[deck].card[card].suit = suit;
+			game->deck[deck].card[card].dealt = NO;
 			if(value == VALUES_MAX){
 				value = ACE;
 				suit++;
