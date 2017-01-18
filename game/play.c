@@ -96,3 +96,27 @@ void addScore(game * game, card card, bool player){
 		game->player.score.low += scoreLow;
 	}
 }
+
+/*	A natural is ACE + 10+ card on first deal
+ * 	Player gets 1,5x their bet, unless dealer
+ * 	also has a natural. In that case, the player
+ * 	gets his bet back. */
+bool checkNatural(game * game, bool player){
+	int card1Value, card2Value;
+	if(player == PLAYER){
+		card1Value = game->player.hand[0]->value;
+		card2Value = game->player.hand[1]->value;
+	}
+	else{
+		card1Value = game->dealer.hand[0]->value;
+		card2Value = game->dealer.hand[1]->value;
+	}
+	/*	 If one of the cards is an ACE and the other is
+	 *	 TEN or over, it's a natural blackjack. */
+	if(card1Value == ACE || card2Value == ACE){
+		if(card1Value + card2Value >= ACE + TEN){
+			return 1;
+		}
+	}
+	return 0;
+}

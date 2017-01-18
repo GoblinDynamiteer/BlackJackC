@@ -85,6 +85,7 @@ void addScore(game * game, card card, bool player);
 void resetScore(game * game);
 void nullHands(game * game);
 void firstDeal(game * game);
+bool checkNatural(game * game, bool player);
 
 #endif /* DEF_H_ */
 
