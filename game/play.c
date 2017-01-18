@@ -4,8 +4,6 @@
 void setupGame(game * game){
 	resetScore(game);
 	nullHands(game);
-
-	game->dealer.mustDraw = YES;
 }
 
 card * dealNextCard(game * game){
