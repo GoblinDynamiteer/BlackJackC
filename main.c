@@ -72,11 +72,7 @@ int main(){
 			getchar();
 			i++;
 		}
-
 	}
-
-
-
 
 	return 0;
 }
