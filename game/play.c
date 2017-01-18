@@ -3,6 +3,7 @@
 
 void setupGame(game * game){
 	resetScore(game);
+	nullHands(game);
 
 	game->dealer.mustDraw = YES;
 }
@@ -19,6 +20,15 @@ card * dealNextCard(game * game){
 	}
 	/*	 No more undealt cards	*/
 	return NULL;
+}
+
+void nullHands(game * game){
+	for(int i = 0; i< MAX_HAND; i++){
+		game->player.hand[i] = NULL;
+		game->dealer.hand[i] = NULL;
+		assert(game->player.hand[i] == NULL &&
+				game->dealer.hand[i] == NULL);
+	}
 }
 
 void resetScore(game * game){
