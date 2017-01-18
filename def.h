@@ -51,7 +51,6 @@ typedef struct player{
 }player;
 
 typedef struct dealer{
-	bool mustDraw;
 	card * hand[MAX_HAND];
 	score score;
 }dealer;
@@ -86,6 +85,7 @@ void resetScore(game * game);
 void nullHands(game * game);
 void firstDeal(game * game);
 bool checkNatural(game * game, bool player);
+bool dealerDraw(game * game);
 
 #endif /* DEF_H_ */
 
