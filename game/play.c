@@ -41,12 +41,22 @@ void nullHands(game * game){
 }
 
 void firstDeal(game * game){
+	/*	 Reset	*/
 	nullHands(game);
 	resetScore(game);
+
+	/*	 Cards	*/
 	game->player.hand[0] = dealNextCard(game);
 	game->dealer.hand[0] = dealNextCard(game);
 	game->player.hand[1] = dealNextCard(game);
 	game->dealer.hand[1] = dealNextCard(game);
+
+	/*	Score
+	 *	Dealer's second card is face down,
+	 * 	don't reveal score for second card	*/
+	addScore(game, *game->player.hand[0], PLAYER);
+	addScore(game, *game->player.hand[1], PLAYER);
+	addScore(game, *game->dealer.hand[0], DEALER);
 }
 
 void resetScore(game * game){
