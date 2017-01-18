@@ -84,6 +84,7 @@ card * dealNextCard(game * game);
 void addScore(game * game, card card, bool player);
 void resetScore(game * game);
 void nullHands(game * game);
+void firstDeal(game * game);
 
 #endif /* DEF_H_ */
 
