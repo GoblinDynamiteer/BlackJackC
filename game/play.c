@@ -29,6 +29,28 @@ card * dealNextCard(game * game){
 	return &game->deck[0].card[0];
 }
 
+void dealCardToPlayer(game * game, bool player){
+	if(player == PLAYER){
+		for(int i = 0; i < MAX_HAND; i++){
+			if(game->player.hand[i] == NULL){
+				game->player.hand[i] = dealNextCard(game);
+				addScore(game, *game->dealer.hand[i], PLAYER);
+				break;
+			}
+		}
+
+	}
+	else{
+		for(int i = 0; i < MAX_HAND; i++){
+			if(game->dealer.hand[i] == NULL){
+				game->dealer.hand[i] = dealNextCard(game);
+				addScore(game, *game->dealer.hand[i], DEALER);
+				break;
+			}
+		}
+	}
+}
+
 void nullHands(game * game){
 	for(int i = 0; i< MAX_HAND; i++){
 		game->player.hand[i] = NULL;
