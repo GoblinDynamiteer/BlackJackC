@@ -20,10 +20,10 @@ card * dealNextCard(game * game){
 	}
 	/*	No more cards in deck, reset & shuffle
 	 *	deal first card in deck.	*/
-	setCards(&game);
-	shuffleDeck(&game, SHUFFLES);
+	setCards(game);
+	shuffleDeck(game, SHUFFLES);
 	printf("\n\n<No more cards -- Shuffling deck>\n");
-	if(!checkShuffle(&game)){
+	if(!checkShuffle(game)){
 		printf("<Shuffle failed!>\n\n");
 		return NULL;
 	}
