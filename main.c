@@ -36,43 +36,26 @@ int main(){
 	int counter = 0;
 
 	while(1){
-		for(int i = 0; i < MAX_HAND;){
-			counter++;
-
-			game.player.hand[i] = NULL;
-			game.player.hand[i] = dealNextCard(&game);
-			if(game.player.hand[i] == NULL){
-				setCards(&game);
-				shuffleDeck(&game, SHUFFLES);
-				printf("\n\n<No more cards -- Shuffling deck>\n");
-				if(!checkShuffle(&game)){
-					printf("<Shuffle failed!>\n\n");
-					break;
-				}
-				printf("<Shuffle correct!>\n\n");
-				game.player.hand[i] = dealNextCard(&game);
-			}
-			printf("[Card #%5d]\n", counter);
-			printf("[Hand %d] : ", i+1);
-			printCardName(&game, *game.player.hand[i]);
-			addScore(&game, *game.player.hand[i], PLAYER);
-			printf("[Score: ");
-			if(game.player.score.low <= 21)	{printf("%d",game.player.score.low);}
-			if(game.player.score.high <= 21 &&
-				game.player.score.high != game.player.score.low){
-					printf(" / %d",game.player.score.high);
-			}
-			printf("]");
-			if(game.player.score.low > 21){
-				printf("\n<BUST!> [%d]\n", game.player.score.low);
-				resetScore(&game);
-				i = 0;
-				continue;
-			}
+		counter++;
+		firstDeal(&game);
+		printf("\nFirst Deal:\nYour hand:\n");
+		printCardName(&game, *game.player.hand[0]);
+		printCardName(&game, *game.player.hand[1]);
+		printf("\nDealer hand:\n");
+		printCardName(&game, *game.dealer.hand[0]);
+		printf("************\n");
+		printf("\nScore: %d / %d - Dealer: %d / %d",
+				game.player.score.low,
+				game.player.score.high,
+				game.dealer.score.low,
+				game.dealer.score.high
+		);
+		if(checkNatural(&game, PLAYER)){
+			printf("\n[DEAL %4d]\n", counter);
 			getchar();
-			i++;
 		}
 	}
+
 
 	return 0;
 }
