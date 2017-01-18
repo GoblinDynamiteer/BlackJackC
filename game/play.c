@@ -30,8 +30,6 @@ void resetScore(game * game){
 
 void addScore(game * game, card card, bool player){
 	int scoreHigh = 0, scoreLow = 0;
-
-	if (card.value > NINE || card.value == ACE){
 		switch(card.value){
 			case ACE:
 				scoreHigh = 11;
@@ -41,16 +39,15 @@ void addScore(game * game, card card, bool player){
 			case JACK:
 			case QUEEN:
 			case TEN:
-				scoreHigh = 10;
-				scoreLow = 10;
+				scoreHigh = scoreLow = 10;
+				//scoreLow = 10;
+				break;
+			default:
+				scoreHigh = scoreLow = card.value + 1;
+				//scoreLow = card.value + 1;
 				break;
 		}
-	}
 
-	else{
-		scoreHigh = card.value + 1;
-		scoreLow = card.value + 1;
-	}
 
 	if(player == DEALER){
 		game->dealer.score.high += scoreHigh;
