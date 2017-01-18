@@ -18,8 +18,17 @@ card * dealNextCard(game * game){
 			}
 		}
 	}
-	/*	 No more undealt cards	*/
-	return NULL;
+	/*	No more cards in deck, reset & shuffle
+	 *	deal first card in deck.	*/
+	setCards(&game);
+	shuffleDeck(&game, SHUFFLES);
+	printf("\n\n<No more cards -- Shuffling deck>\n");
+	if(!checkShuffle(&game)){
+		printf("<Shuffle failed!>\n\n");
+		return NULL;
+	}
+	game->deck[0].card[0].dealt = YES;
+	return &game->deck[0].card[0];
 }
 
 void nullHands(game * game){
