@@ -123,7 +123,7 @@ bool checkNatural(game * game, bool player){
 
 /*	 Dealer must draw at 16 and stay at 17	*/
 bool dealerDraw(game * game){
-	int scoreHigh = game.dealer.score.high;
-	int scoreLow = game.dealer.score.low;
+	int scoreHigh = game->dealer.score.high;
+	int scoreLow = game->dealer.score.low;
 	return (scoreHigh <= 16 && scoreLow <= 16);
 }
