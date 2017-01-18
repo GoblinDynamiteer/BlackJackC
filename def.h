@@ -52,6 +52,7 @@ typedef struct player{
 
 typedef struct dealer{
 	bool mustDraw;
+	card * hand[MAX_HAND];
 	score score;
 }dealer;
 

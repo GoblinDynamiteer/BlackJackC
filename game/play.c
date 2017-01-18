@@ -31,6 +31,15 @@ void nullHands(game * game){
 	}
 }
 
+void firstDeal(game * game){
+	nullHands(game);
+	resetScore(game);
+	game.player.hand[0] = dealNextCard(game);
+	game.dealer.hand[0] = dealNextCard(game);
+	game.player.hand[1] = dealNextCard(game);
+	game.dealer.hand[1] = dealNextCard(game);
+}
+
 void resetScore(game * game){
 	game->dealer.score.high = 0;
 	game->dealer.score.low = 0;
