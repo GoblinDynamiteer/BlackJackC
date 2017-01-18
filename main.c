@@ -38,22 +38,28 @@ int main(){
 	while(1){
 		counter++;
 		firstDeal(&game);
-		printf("\nFirst Deal:\nYour hand:\n");
-		printCardName(&game, *game.player.hand[0]);
-		printCardName(&game, *game.player.hand[1]);
-		printf("\nDealer hand:\n");
+		printf("\n- NEW HAND -\n");
 		printCardName(&game, *game.dealer.hand[0]);
-		printf("************\n");
-		printf("\nScore: %d / %d - Dealer: %d / %d",
-				game.player.score.low,
-				game.player.score.high,
+		printCardName(&game, *game.dealer.hand[1]);
+		addScore(&game, *game.dealer.hand[1], DEALER);
+		printf("[%d / %d]\n",
 				game.dealer.score.low,
 				game.dealer.score.high
 		);
-		if(checkNatural(&game, PLAYER)){
-			printf("\n[DEAL %4d]\n", counter);
-			getchar();
+		while(dealerDraw(&game)){
+			int i = 2;
+			printf("- DRAWING - ");
+			dealCardToPlayer(&game, DEALER);
+			assert(game.dealer.hand[i] != NULL);
+			printCardName(&game, *game.dealer.hand[i++]);
+			printf("[%d / %d]\n",
+					game.dealer.score.low,
+					game.dealer.score.high
+			);
 		}
+		printf("<STAYING OR BUST>\n");
+		getchar();
+
 	}
 
 
