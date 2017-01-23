@@ -6,6 +6,7 @@ void setupGame(game * game){
 	nullHands(game);
 }
 
+/*	 Gets the next card in the deck 	*/
 card * dealNextCard(game * game){
 	for(int deck = 0; deck < DECKS; deck++){
 		for(int card = 0; card < DECK_SIZE; card++){
@@ -29,6 +30,7 @@ card * dealNextCard(game * game){
 	return &game->deck[0].card[0];
 }
 
+/*	 Deals a new card to player/dealer and adds card score	*/
 void dealCardToPlayer(game * game, bool player){
 	if(player == PLAYER){
 		for(int i = 0; i < MAX_HAND; i++){
@@ -51,6 +53,7 @@ void dealCardToPlayer(game * game, bool player){
 	}
 }
 
+/*	 Nulls pointers in player and dealer card hands	*/
 void nullHands(game * game){
 	for(int i = 0; i< MAX_HAND; i++){
 		game->player.hand[i] = NULL;
@@ -60,6 +63,7 @@ void nullHands(game * game){
 	}
 }
 
+/*	 Sets up first deal, 2 each to player and dealer	*/
 void firstDeal(game * game){
 	/*	 Reset	*/
 	nullHands(game);
@@ -79,6 +83,7 @@ void firstDeal(game * game){
 	addScore(game, *game->dealer.hand[0], DEALER);
 }
 
+/*	 Resets score, before a new deal 	*/
 void resetScore(game * game){
 	game->dealer.score.high = 0;
 	game->dealer.score.low = 0;
@@ -86,6 +91,7 @@ void resetScore(game * game){
 	game->player.score.low = 0;
 }
 
+/*	 Adds score from card value(s)	*/
 void addScore(game * game, card card, bool player){
 	int scoreHigh = 0, scoreLow = 0;
 		switch(card.value){
