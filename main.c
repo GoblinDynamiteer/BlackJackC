@@ -1,8 +1,8 @@
-/* 
+/*
 
-BlackJack by Johan K�mpe! 
+BlackJack by Johan K�mpe!
 
-Rules from 
+Rules from
 http://www.bicyclecards.com/how-to-play/blackjack/
 http://www.cherryapp.se/casino-school/
 

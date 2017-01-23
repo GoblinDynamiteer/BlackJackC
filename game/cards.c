@@ -32,7 +32,7 @@ bool setCards(game * game){
 	return (count == DECK_SIZE * DECKS);
 }
 
-/* Fix swe/eng translations
+/* Fix swedish translation
  * Copies text names to char arrays	*/
 bool setCardsNames(game * game){
 	int count = 0;

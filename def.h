@@ -11,7 +11,8 @@
 #include <time.h>
 
 /*	 Card values	*/
-enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
+enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+	EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
 
 /*	 Card suits	*/
 enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
@@ -30,31 +31,37 @@ enum {PLAYER, DEALER};
 
 #define MAX_HAND 20
 
+/*	 A card	*/
 typedef struct card{
 	int value;
 	int suit;
 	bool dealt;
 }card;
 
-typedef struct score{
-	int low, high;
-}score;
-
+/*	 A deck of cards	*/
 typedef struct deck{
 	card card[DECK_SIZE];
 }deck;
 
+/*	 Score low/high: Aces are worth 1/11	*/
+typedef struct score{
+	int low, high;
+}score;
+
+/*	 The player	*/
 typedef struct player{
 	int credits;
 	card * hand[MAX_HAND];
 	score score;
 }player;
 
+/*	 The dealer	*/
 typedef struct dealer{
 	card * hand[MAX_HAND];
 	score score;
 }dealer;
 
+/*	 Game struct	*/
 typedef struct game{
 	deck deck[DECKS];
 	char * cardValues[VALUES_MAX];
