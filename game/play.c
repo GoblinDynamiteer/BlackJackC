@@ -42,7 +42,7 @@ void dealCardToPlayer(game * game, bool player){
 		for(int i = 0; i < MAX_HAND; i++){
 			if(game->player.hand[i] == NULL){
 				game->player.hand[i] = dealNextCard(game);
-				addScore(game, *game->dealer.hand[i], PLAYER);
+				addScore(game, *game->player.hand[i], PLAYER);
 				break;
 			}
 		}
