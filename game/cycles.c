@@ -54,6 +54,39 @@ bool dealerCycle(game * game){
   return 1;
 }
 
+/*    Player play cycle */
 bool playerCycle(game * game){
+  printf("+PLAYER CARDS\n");
+  printCardName(game, *game->player.hand[0]);
+  printCardName(game, *game->player.hand[1]);
+  printf("+PLAYER SCORE [%d / %d]\n",
+      game->player.score.low,
+      game->player.score.high
+  );
+  if(checkNatural(game, PLAYER)){
+    printf("+PLAYER HAS NATURAL BLACKJACK>\n");
+  }
+  else{
+    int i = 2;
+    while(playerHit()){
+      printf("+PLAYER GETS CARD\n");
+      dealCardToPlayer(game, PLAYER);
+      assert(game->player.hand[i] != NULL);
+      printCardName(game, *game->player.hand[i++]);
+      printf("[%d / %d]\n",
+          game->player.score.low,
+          game->player.score.high
+      );
+      /*    temp: clear input buffer */
+      char c;
+      while ((c = getchar()) != '\n' && c != EOF){
+        ; // empty
+      }
+      if(isPlayerBust(game, PLAYER)){
+        printf("+PLAYER BUST\n");
+        break;
+      }
+    }
+  }
   return 1;
 }
