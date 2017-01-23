@@ -87,6 +87,6 @@ void nullHands(game * game);
 void firstDeal(game * game);
 bool checkNatural(game * game, bool player);
 bool dealerDraw(game * game);
+bool isBust(int score);
 
 #endif /* DEF_H_ */
-

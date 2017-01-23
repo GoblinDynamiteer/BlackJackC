@@ -157,4 +157,8 @@ bool dealerDraw(game * game){
 	return (bothUnder ||
 		(highBust && scoreLow <= 16) ||
 		(lowBust && scoreHigh <= 16));
+
+/*	 Checks if score is bust	*/
+bool isBust(int score){
+	return (score > 21);
 }
