@@ -1,6 +1,6 @@
 /* 
 
-BlackJack by Johan Kämpe! 
+BlackJack by Johan Kï¿½mpe! 
 
 Rules from 
 http://www.bicyclecards.com/how-to-play/blackjack/
@@ -46,8 +46,8 @@ int main(){
 				game.dealer.score.low,
 				game.dealer.score.high
 		);
+		int i = 2;
 		while(dealerDraw(&game)){
-			int i = 2;
 			printf("- DRAWING - ");
 			dealCardToPlayer(&game, DEALER);
 			assert(game.dealer.hand[i] != NULL);
