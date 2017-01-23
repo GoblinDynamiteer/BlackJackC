@@ -39,7 +39,9 @@ int main(){
 		counter++;
 		firstDeal(&game);
 		printf("\n- NEW HAND -\n");
+		printf("\n<<DEALER HAS\n\t");
 		printCardName(&game, *game.dealer.hand[0]);
+		printf("\t");
 		printCardName(&game, *game.dealer.hand[1]);
 		addScore(&game, *game.dealer.hand[1], DEALER);
 		printf("[%d / %d]\n",
@@ -48,7 +50,7 @@ int main(){
 		);
 		int i = 2;
 		while(dealerDraw(&game)){
-			printf("- DRAWING - ");
+			printf("<< DEALER DRAWING\n\t");
 			dealCardToPlayer(&game, DEALER);
 			assert(game.dealer.hand[i] != NULL);
 			printCardName(&game, *game.dealer.hand[i++]);
@@ -57,11 +59,18 @@ int main(){
 					game.dealer.score.high
 			);
 		}
-		printf("<STAYING OR BUST>\n");
+		if(checkNatural(&game, DEALER)){
+			printf(">> DEALER HAS NATURAL BLACKJACK>\n");
+		}
+		else if(isPlayerBust(&game, DEALER)){
+			printf(">> DEALER BUST>\n");
+		}
+		else{
+			printf("<< DEALER STAYING>\n");
+		}
 		getchar();
 
 	}
-
 
 	return 0;
 }
