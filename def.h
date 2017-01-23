@@ -20,7 +20,7 @@ enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 /*	 Misc 1/0	*/
 enum {NO, YES};
 enum {FALSE, TRUE};
-enum {PLAYER, DEALER};
+enum {PLAYER, DEALER, DRAW};
 
 
 #define DECK_SIZE 52
@@ -30,11 +30,12 @@ enum {PLAYER, DEALER};
 #define SHUFFLES 50000
 
 #define MAX_HAND 20
+#define MAX_SPLITS 5
 
 /*	 A card	*/
 typedef struct card{
-	int value;
-	int suit;
+	int value; //ACE to KING
+	int suit; //HEARTS to SPADES
 	bool dealt;
 }card;
 
@@ -51,13 +52,13 @@ typedef struct score{
 /*	 The player	*/
 typedef struct player{
 	int credits;
-	card * hand[MAX_HAND];
+	card * hand[MAX_HAND]; //Current cards
 	score score;
 }player;
 
 /*	 The dealer	*/
 typedef struct dealer{
-	card * hand[MAX_HAND];
+	card * hand[MAX_HAND]; //Current cards
 	score score;
 }dealer;
 
@@ -67,6 +68,7 @@ typedef struct game{
 	char * cardValues[VALUES_MAX];
 	char * cardSuits[SUITS_MAX];
 	player player;
+	//player playerSplit[MAX_SPLITS];
 	dealer dealer;
 }game;
 
