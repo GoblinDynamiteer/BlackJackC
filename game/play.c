@@ -151,5 +151,10 @@ bool checkNatural(game * game, bool player){
 bool dealerDraw(game * game){
 	int scoreHigh = game->dealer.score.high;
 	int scoreLow = game->dealer.score.low;
-	return (scoreHigh <= 16 && scoreLow <= 16);
+	bool bothUnder = (scoreHigh <= 16 && scoreLow <= 16);
+	bool lowBust = (scoreLow > 21);
+	bool highBust = (scoreHigh > 21);
+	return (bothUnder ||
+		(highBust && scoreLow <= 16) ||
+		(lowBust && scoreHigh <= 16));
 }
