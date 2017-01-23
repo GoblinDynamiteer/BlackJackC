@@ -36,11 +36,12 @@ int main(){
 	int counter = 0;
 
 	while(1){
+		printf("\n- NEW DEAL -\n");
 		newGameCycle(&game);
+		printf("\n- PLAYER TURN -\n");
 		playerCycle(&game);
+		printf("\n- DEALER CYCLE -\n");
 		dealerCycle(&game);
-		getchar();
-
 	}
 
 	return 0;
