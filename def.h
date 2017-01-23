@@ -96,6 +96,7 @@ bool checkNatural(game * game, bool player);
 bool dealerDraw(game * game);
 bool isBust(int score);
 bool isPlayerBust(game * game, bool player);
+bool playerHit(void);
 
 /*	cycles.c 	*/
 bool newGameCycle(game * game);

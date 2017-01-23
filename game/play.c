@@ -182,3 +182,9 @@ bool isPlayerBust(game * game, bool player){
 	}
 	return (isBust(scoreHigh) && isBust(scoreLow));
 }
+
+bool playerHit(void){
+	printf("(H)IT / (S)TAY\n");
+	char c = getchar();
+	return (tolower(c) == 'h');
+}
