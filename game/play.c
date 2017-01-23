@@ -162,3 +162,17 @@ bool dealerDraw(game * game){
 bool isBust(int score){
 	return (score > 21);
 }
+
+/*	 Checks if player/dealer is bust	*/
+bool isPlayerBust(game * game, bool player){
+	int scoreHigh, scoreLow;
+	if(player == PLAYER){
+		scoreHigh = game->player.score.high;
+		scoreLow = game->player.score.low;
+	}
+	else{
+		scoreHigh = game->dealer.score.high;
+		scoreLow = game->dealer.score.low;
+	}
+	return (isBust(scoreHigh) && isBust(scoreLow));
+}
