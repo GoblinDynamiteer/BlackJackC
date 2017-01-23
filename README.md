@@ -11,5 +11,5 @@ I'm currently rewriting the game from scratch, planning on using SDL for graphic
 
 ---
 
-Dealer test/debug:
-![Dealer Checks](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/girl_005.PNG)
+Dealer test/debug:  
+![Dealer Checks](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img005.PNG)
