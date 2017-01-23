@@ -97,4 +97,9 @@ bool dealerDraw(game * game);
 bool isBust(int score);
 bool isPlayerBust(game * game, bool player);
 
+/*	cycles.c 	*/
+bool newGameCycle(game * game);
+bool dealerCycle(game * game);
+bool playerCycle(game * game);
+
 #endif /* DEF_H_ */
