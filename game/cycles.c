@@ -72,11 +72,12 @@ bool playerCycle(game * game){
         game->player[hand].score.high
     );
 
-    if(checkNatural(game, PLAYER, hand)){
-      printf("+PLAYER %d HAS NATURAL BLACKJACK >>\n", hand);
-    }
     if(canSplit(*game->player[hand].hand[0], *game->player[hand].hand[1])){
-      printf("+PLAYER %d CAN SPLIT >>\n", hand);
+      printf("+PLAYER %d CAN SPLIT <----------\n", hand);
+    }
+
+    if(checkNatural(game, PLAYER, hand)){
+      printf("+PLAYER %d HAS NATURAL BLACKJACK <----------\n", hand);
     }
     else{
       int i = 2;
