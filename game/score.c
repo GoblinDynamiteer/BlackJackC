@@ -102,3 +102,18 @@ void resetScore(game * game){
 		game->player[i].score.low = 0;
 	}
 }
+
+/*	Gets highest available score 	*/
+int getScore(game * game, bool player, int hand){
+	int scoreHigh, scoreLow, score;
+	if(player == DEALER){
+		scoreHigh = game->dealer.score.high;
+		scoreLow = game->dealer.score.low;
+	}
+	else{
+		scoreHigh = game->player[hand].score.high;
+		scoreLow = game->player[hand].score.low;
+	}
+	score = scoreHigh <= 21 ? scoreHigh : scoreLow;
+	return score;
+}

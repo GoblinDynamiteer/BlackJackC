@@ -101,6 +101,7 @@ bool checkNatural(game * game, bool player, int hand);
 bool isBust(int score);
 bool isPlayerBust(game * game, bool player, int hand);
 bool dealerDraw(game * game);
+int getScore(game * game, bool player, int hand);
 
 /*	cycles.c 	*/
 bool newGameCycle(game * game);
