@@ -6,7 +6,7 @@ SUBDIR = game
 SRC = main.c $(wildcard $(SUBDIR)/*.c)
 OBJ = $(SRC:.c=.o)
 
-all: blackjack run
+all: cleantarget blackjack run
 
 blackjack: $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET) $(LIBS)
@@ -30,6 +30,9 @@ clean:
 	-rm -f *.o
 	-rm -f $(SUBDIR)/*.o
 	-rm -f $(TARGET).*
+
+cleantarget:
+		-rm -f $(TARGET).*
 
 run: $(TARGET)
 	.\$(TARGET)
