@@ -1,38 +1,33 @@
 TARGET = blackjackc
 LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 CC = gcc
+SRC_EXT = c
+OBJ_EXT = o
 CFLAGS = -g -Wall
 SUBDIR = game
-SRC = main.c $(wildcard $(SUBDIR)/*.c)
-OBJ = $(SRC:.c=.o)
+HEADER = def.h
+SRC = $(wildcard *.$(SRC_EXT)) $(wildcard $(SUBDIR)/*.$(SRC_EXT))
+OBJ = $(SRC:.$(SRC_EXT)=.$(OBJ_EXT))
 
-all: cleantarget blackjack run
+#Remove executable -> build -> run
+all: cleantarget link run
 
-blackjack: $(OBJ)
+link: $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET) $(LIBS)
 
-main.o : main.c def.h
-	$(CC) -c main.c
+#Compile object files from sources if needed
+$(OBJ) : $(HEADER)
 
-game.o : $(SUBDIR)/game.c def.h
-	$(CC) -c game.c
-
-cycles.o : $(SUBDIR)/cycles.c def.h
-	$(CC) -c cycles.c
-
-num.o : $(SUBDIR)/num.c def.h
-	$(CC) -c num.c
-
-play.o : $(SUBDIR)/play.c def.h
-	$(CC) -c play.c
-
+#Remove object files and executable
 clean:
-	-rm -f *.o
-	-rm -f $(SUBDIR)/*.o
+	-rm -f *.$(OBJ_EXT)
+	-rm -f $(SUBDIR)/*.$(OBJ_EXT)
 	-rm -f $(TARGET).*
 
+#Remove executable
 cleantarget:
 		-rm -f $(TARGET).*
 
+#Run executable
 run: $(TARGET)
 	.\$(TARGET)
