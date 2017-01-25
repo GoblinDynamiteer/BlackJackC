@@ -188,6 +188,7 @@ bool canSplit(card card1, card card2){
 	return (card1.value == card2.value);
 }
 
+/*	 Temporary hit/stay for player	*/
 bool playerHit(void){
 	printf("(H)IT / (S)TAY\n");
 	char c = getchar();
