@@ -21,6 +21,7 @@ enum {HEARTS, DIAMONDS, CLUBS, SPADES, SUITS_MAX};
 enum {NO, YES};
 enum {FALSE, TRUE};
 enum {PLAYER, DEALER, DRAW};
+enum {MAIN_HAND, SPLIT1, SPLIT2, SPLIT3, SPLIT4, SPLIT5, SPLITS_MAX};
 
 
 #define DECK_SIZE 52
@@ -30,7 +31,6 @@ enum {PLAYER, DEALER, DRAW};
 #define SHUFFLES 50000
 
 #define MAX_HAND 20
-#define MAX_SPLITS 5
 
 /*	 A card	*/
 typedef struct card{
@@ -67,8 +67,7 @@ typedef struct game{
 	deck deck[DECKS];
 	char * cardValues[VALUES_MAX];
 	char * cardSuits[SUITS_MAX];
-	player player;
-	//player playerSplit[MAX_SPLITS];
+	player player[SPLITS_MAX];
 	dealer dealer;
 }game;
 
@@ -89,15 +88,15 @@ void initRandom();
 /*	 play.c	*/
 void setupGame(game * game);
 card * dealNextCard(game * game);
-void dealCardToPlayer(game * game, bool player);
-void addScore(game * game, card card, bool player);
+void dealCardToPlayer(game * game, bool player, int hand);
+void addScore(game * game, card card, bool player, int hand);
 void resetScore(game * game);
 void nullHands(game * game);
 void firstDeal(game * game);
-bool checkNatural(game * game, bool player);
+bool checkNatural(game * game, bool player, int hand);
 bool dealerDraw(game * game);
 bool isBust(int score);
-bool isPlayerBust(game * game, bool player);
+bool isPlayerBust(game * game, bool player, int hand);
 bool playerHit(void);
 bool canSplit(card card1, card card2);
 
