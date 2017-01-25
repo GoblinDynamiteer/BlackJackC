@@ -57,47 +57,39 @@ bool dealerCycle(game * game){
 
 /*    Player play cycle */
 bool playerCycle(game * game){
-  printf("+PLAYER CARDS\n");
-  printCardName(game, *game->player[MAIN_HAND].hand[0]);
-  printCardName(game, *game->player[MAIN_HAND].hand[1]);
-  printf("+PLAYER SCORE [%d / %d]\n",
-      game->player[MAIN_HAND].score.low,
-      game->player[MAIN_HAND].score.high
-  );
-  if(checkNatural(game, PLAYER, MAIN_HAND)){
-    printf("+PLAYER HAS NATURAL BLACKJACK>\n");
-  }
-  else{
-    /*   Testing splits */
-    for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
+  for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
+    printf("\n\n- PLAYER TURN - HAND %d\n\n", hand);
+    printf("+PLAYER CARDS - HAND %d\n", hand);
+    if(hand > MAIN_HAND){
+      dealCardToPlayer(game, PLAYER, hand);
+      dealCardToPlayer(game, PLAYER, hand);
+    }
+    printCardName(game, *game->player[hand].hand[0]);
+    printCardName(game, *game->player[hand].hand[1]);
+    printf("+PLAYER SCORE [%d / %d] - HAND %d\n",
+        game->player[hand].score.low,
+        game->player[hand].score.high,
+        hand
+    );
 
+    if(checkNatural(game, PLAYER, hand)){
+      printf("+PLAYER HAS NATURAL BLACKJACK> - HAND %d\n", hand);
+    }
+    else{
       int i = 2;
-
-      /*   Deal two cards to split  */
-      if(hand > MAIN_HAND){
-        printf("\n\n+ + + PLAYER/SPLIT %d + + +\n", hand);
-        dealCardToPlayer(game, PLAYER, hand);
-        dealCardToPlayer(game, PLAYER, hand);
-        printCardName(game, *game->player[hand].hand[0]);
-        printCardName(game, *game->player[hand].hand[1]);
-        printf("+PLAYER/SPLIT %d SCORE [%d / %d]\n",
-            hand,
-            game->player[hand].score.low,
-            game->player[hand].score.high
-        );
-      }
-
-      while(playerHit()){
+      //while(playerHit()){
+      while(1){
         printf("+PLAYER/SPLIT %d GETS CARD\n", hand);
         dealCardToPlayer(game, PLAYER, hand);
         assert(game->player[hand].hand[i] != NULL);
         printCardName(game, *game->player[hand].hand[i++]);
-        printf("[%d / %d]\n",
+        printf("+PLAYER SCORE [%d / %d] - HAND %d\n",
             game->player[hand].score.low,
-            game->player[hand].score.high
+            game->player[hand].score.high,
+            hand
         );
         if(isPlayerBust(game, PLAYER, hand)){
-          printf("+PLAYER BUST\n");
+          printf("+PLAYER BUST - HAND %d\n", hand);
           break;
         }
       }
