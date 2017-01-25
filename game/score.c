@@ -5,6 +5,8 @@
  *      Author: Johan Kämpe
  */
 
+#include "..\def.h"
+
 /*	 Adds score from card value(s)	*/
 void addScore(game * game, card card, bool player, int hand){
 	int scoreHigh = 0, scoreLow = 0;
