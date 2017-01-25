@@ -99,6 +99,7 @@ bool dealerDraw(game * game);
 bool isBust(int score);
 bool isPlayerBust(game * game, bool player);
 bool playerHit(void);
+bool canSplit(card card1, card card2);
 
 /*	cycles.c 	*/
 bool newGameCycle(game * game);

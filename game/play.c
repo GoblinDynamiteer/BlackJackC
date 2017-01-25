@@ -183,6 +183,11 @@ bool isPlayerBust(game * game, bool player){
 	return (isBust(scoreHigh) && isBust(scoreLow));
 }
 
+/*	 Checks if player is eligable for split		*/
+bool canSplit(card card1, card card2){
+	return (card1.value == card2.value);
+}
+
 bool playerHit(void){
 	printf("(H)IT / (S)TAY\n");
 	char c = getchar();
