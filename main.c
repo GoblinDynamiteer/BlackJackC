@@ -28,17 +28,16 @@ int main(){
 		printf("Shuffle failed!");
 	}
 
-	printDeck(&game);
+	//printDeck(&game);
 
-	printf("\nDeck print done -- Start dealing test\n");
-	getchar();
+	//printf("\nDeck print done -- Start dealing test\n");
+	//getchar();
 
 	int counter = 0;
 
-	while(1){
-		printf("\n- NEW DEAL -\n");
+	while(++counter < 1000){
+		printf("\n- NEW DEAL - CYCLE %d\n" , counter);
 		newGameCycle(&game);
-		printf("\n- PLAYER TURN -\n");
 		playerCycle(&game);
 		printf("\n- DEALER CYCLE -\n");
 		dealerCycle(&game);

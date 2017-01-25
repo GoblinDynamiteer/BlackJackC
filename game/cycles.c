@@ -20,7 +20,7 @@ bool newGameCycle(game * game){
       game->dealer.score.high
   );
   /*    Add score for hidden card */
-  addScore(game, *game->dealer.hand[1], DEALER);
+  addScore(game, *game->dealer.hand[1], DEALER, MAIN_HAND);
   return 1;
 }
 
@@ -35,7 +35,7 @@ bool dealerCycle(game * game){
   int i = 2;
   while(dealerDraw(game)){
     printf("|DEALER DRAWS\n");
-    dealCardToPlayer(game, DEALER);
+    dealCardToPlayer(game, DEALER, MAIN_HAND);
     assert(game->dealer.hand[i] != NULL);
     printCardName(game, *game->dealer.hand[i++]);
     printf("|DEALER SCORE [%d / %d]\n",
@@ -43,10 +43,10 @@ bool dealerCycle(game * game){
         game->dealer.score.high
     );
   }
-  if(checkNatural(game, DEALER)){
+  if(checkNatural(game, DEALER, MAIN_HAND)){
     printf("|DEALER HAS NATURAL BLACKJACK>\n");
   }
-  else if(isPlayerBust(game, DEALER)){
+  else if(isPlayerBust(game, DEALER, MAIN_HAND)){
     printf("|DEALER BUST>\n");
   }
   else{
@@ -57,35 +57,45 @@ bool dealerCycle(game * game){
 
 /*    Player play cycle */
 bool playerCycle(game * game){
-  printf("+PLAYER CARDS\n");
-  printCardName(game, *game->player.hand[0]);
-  printCardName(game, *game->player.hand[1]);
-  printf("+PLAYER SCORE [%d / %d]\n",
-      game->player.score.low,
-      game->player.score.high
-  );
-  if(checkNatural(game, PLAYER)){
-    printf("+PLAYER HAS NATURAL BLACKJACK>\n");
-  }
-  else{
-    int i = 2;
-    while(playerHit()){
-      printf("+PLAYER GETS CARD\n");
-      dealCardToPlayer(game, PLAYER);
-      assert(game->player.hand[i] != NULL);
-      printCardName(game, *game->player.hand[i++]);
-      printf("[%d / %d]\n",
-          game->player.score.low,
-          game->player.score.high
-      );
-      /*    temp: clear input buffer */
-      char c;
-      while ((c = getchar()) != '\n' && c != EOF){
-        ; // empty
-      }
-      if(isPlayerBust(game, PLAYER)){
-        printf("+PLAYER BUST\n");
-        break;
+  for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
+    printf("\n\n- PLAYER %d TURN -\n\n", hand);
+    printf("+PLAYER %d CARDS\n", hand);
+    if(hand > MAIN_HAND){
+      dealCardToPlayer(game, PLAYER, hand);
+      dealCardToPlayer(game, PLAYER, hand);
+    }
+    printCardName(game, *game->player[hand].hand[0]);
+    printCardName(game, *game->player[hand].hand[1]);
+    printf("+PLAYER %d SCORE [%d / %d]\n",
+        hand,
+        game->player[hand].score.low,
+        game->player[hand].score.high
+    );
+
+    if(canSplit(*game->player[hand].hand[0], *game->player[hand].hand[1])){
+      printf("+PLAYER %d CAN SPLIT <----------\n", hand);
+    }
+
+    if(checkNatural(game, PLAYER, hand)){
+      printf("+PLAYER %d HAS NATURAL BLACKJACK <----------\n", hand);
+    }
+    else{
+      int i = 2;
+      //while(playerHit()){
+      while(1){
+        printf("+PLAYER %d GETS CARD\n", hand);
+        dealCardToPlayer(game, PLAYER, hand);
+        assert(game->player[hand].hand[i] != NULL);
+        printCardName(game, *game->player[hand].hand[i++]);
+        printf("+PLAYER %d SCORE [%d / %d]\n",
+            hand,
+            game->player[hand].score.low,
+            game->player[hand].score.high
+        );
+        if(isPlayerBust(game, PLAYER, hand)){
+          printf("+PLAYER %d BUST\n", hand);
+          break;
+        }
       }
     }
   }

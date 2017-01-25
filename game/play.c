@@ -37,12 +37,12 @@ card * dealNextCard(game * game){
 }
 
 /*	 Deals a new card to player/dealer and adds card score	*/
-void dealCardToPlayer(game * game, bool player){
+void dealCardToPlayer(game * game, bool player, int hand){
 	if(player == PLAYER){
 		for(int i = 0; i < MAX_HAND; i++){
-			if(game->player.hand[i] == NULL){
-				game->player.hand[i] = dealNextCard(game);
-				addScore(game, *game->player.hand[i], PLAYER);
+			if(game->player[hand].hand[i] == NULL){
+				game->player[hand].hand[i] = dealNextCard(game);
+				addScore(game, *game->player[hand].hand[i], PLAYER, hand);
 				break;
 			}
 		}
@@ -52,7 +52,7 @@ void dealCardToPlayer(game * game, bool player){
 		for(int i = 0; i < MAX_HAND; i++){
 			if(game->dealer.hand[i] == NULL){
 				game->dealer.hand[i] = dealNextCard(game);
-				addScore(game, *game->dealer.hand[i], DEALER);
+				addScore(game, *game->dealer.hand[i], DEALER, MAIN_HAND);
 				break;
 			}
 		}
@@ -62,10 +62,14 @@ void dealCardToPlayer(game * game, bool player){
 /*	 Nulls pointers in player and dealer card hands	*/
 void nullHands(game * game){
 	for(int i = 0; i< MAX_HAND; i++){
-		game->player.hand[i] = NULL;
 		game->dealer.hand[i] = NULL;
-		assert(game->player.hand[i] == NULL &&
-				game->dealer.hand[i] == NULL);
+		assert(game->dealer.hand[i] == NULL);
+	}
+	for(int j = 0; j < SPLITS_MAX; j++){
+		for(int i = 0; i< MAX_HAND; i++){
+			game->player[j].hand[i] = NULL;
+			assert(game->player[j].hand[i] == NULL);
+		}
 	}
 }
 
@@ -76,29 +80,31 @@ void firstDeal(game * game){
 	resetScore(game);
 
 	/*	 Cards	*/
-	game->player.hand[0] = dealNextCard(game);
+	game->player[MAIN_HAND].hand[0] = dealNextCard(game);
 	game->dealer.hand[0] = dealNextCard(game);
-	game->player.hand[1] = dealNextCard(game);
+	game->player[MAIN_HAND].hand[1] = dealNextCard(game);
 	game->dealer.hand[1] = dealNextCard(game);
 
 	/*	Score
 	 *	Dealer's second card is face down,
 	 * 	don't reveal score for second card	*/
-	addScore(game, *game->player.hand[0], PLAYER);
-	addScore(game, *game->player.hand[1], PLAYER);
-	addScore(game, *game->dealer.hand[0], DEALER);
+	addScore(game, *game->player[MAIN_HAND].hand[0], PLAYER, MAIN_HAND);
+	addScore(game, *game->player[MAIN_HAND].hand[1], PLAYER, MAIN_HAND);
+	addScore(game, *game->dealer.hand[0], DEALER, MAIN_HAND);
 }
 
 /*	 Resets score, before a new deal 	*/
 void resetScore(game * game){
 	game->dealer.score.high = 0;
 	game->dealer.score.low = 0;
-	game->player.score.high = 0;
-	game->player.score.low = 0;
+	for(int i = 0; i < SPLITS_MAX; i++){
+		game->player[i].score.high = 0;
+		game->player[i].score.low = 0;
+	}
 }
 
 /*	 Adds score from card value(s)	*/
-void addScore(game * game, card card, bool player){
+void addScore(game * game, card card, bool player, int hand){
 	int scoreHigh = 0, scoreLow = 0;
 		switch(card.value){
 			case ACE:
@@ -124,8 +130,8 @@ void addScore(game * game, card card, bool player){
 		game->dealer.score.low += scoreLow;
 	}
 	else{
-		game->player.score.high += scoreHigh;
-		game->player.score.low += scoreLow;
+		game->player[hand].score.high += scoreHigh;
+		game->player[hand].score.low += scoreLow;
 	}
 }
 
@@ -133,11 +139,11 @@ void addScore(game * game, card card, bool player){
  * 	Player gets 1,5x their bet, unless dealer
  * 	also has a natural. In that case, the player
  * 	gets his bet back. */
-bool checkNatural(game * game, bool player){
+bool checkNatural(game * game, bool player, int hand){
 	int card1Value, card2Value;
 	if(player == PLAYER){
-		card1Value = game->player.hand[0]->value;
-		card2Value = game->player.hand[1]->value;
+		card1Value = game->player[hand].hand[0]->value;
+		card2Value = game->player[hand].hand[1]->value;
 	}
 	else{
 		card1Value = game->dealer.hand[0]->value;
@@ -170,11 +176,11 @@ bool isBust(int score){
 }
 
 /*	 Checks if player/dealer is bust	*/
-bool isPlayerBust(game * game, bool player){
+bool isPlayerBust(game * game, bool player, int hand){
 	int scoreHigh, scoreLow;
 	if(player == PLAYER){
-		scoreHigh = game->player.score.high;
-		scoreLow = game->player.score.low;
+		scoreHigh = game->player[hand].score.high;
+		scoreLow = game->player[hand].score.low;
 	}
 	else{
 		scoreHigh = game->dealer.score.high;
@@ -192,5 +198,6 @@ bool canSplit(card card1, card card2){
 bool playerHit(void){
 	printf("(H)IT / (S)TAY\n");
 	char c = getchar();
+	fflush(stdin);
 	return (tolower(c) == 'h');
 }
