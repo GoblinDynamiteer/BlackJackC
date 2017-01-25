@@ -6,6 +6,15 @@
 
 Project for practice in C programming & SDL.
 
+Todo:
+- Raise
+- Split cards
+- Score checks against dealer - win / lose / draw
+- Betting
+- Insurance
+- Graphics
+
+
 ---
 
 Dealer test/debug:  
