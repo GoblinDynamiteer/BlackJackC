@@ -1,6 +1,6 @@
 /*
 
-BlackJack by Johan K�mpe!
+BlackJack by Johan Kämpe!
 
 Rules from
 http://www.bicyclecards.com/how-to-play/blackjack/
