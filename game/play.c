@@ -93,16 +93,6 @@ void firstDeal(game * game){
 	addScore(game, *game->dealer.hand[0], DEALER, MAIN_HAND);
 }
 
-/*	 Resets score, before a new deal 	*/
-void resetScore(game * game){
-	game->dealer.score.high = 0;
-	game->dealer.score.low = 0;
-	for(int i = 0; i < SPLITS_MAX; i++){
-		game->player[i].score.high = 0;
-		game->player[i].score.low = 0;
-	}
-}
-
 /*	 Checks if player is eligable for split		*/
 bool canSplit(card card1, card card2){
 	return (card1.value == card2.value);
