@@ -1,10 +1,27 @@
 /*
 
 BlackJack by Johan Kämpe!
+Swedish pub rules
 
 Rules from
 http://www.bicyclecards.com/how-to-play/blackjack/
-http://www.cherryapp.se/casino-school/
+http://cherryspelgladje.se/spelregler/
+
+TODO:
+Raise Double:
+	on 7, 8, 9, 10 or 11 on first deal - ACE counts as 1
+
+Insurance:
+	First dealer card is ACE, player adds 0.5x to bet.
+	If dealer gets natural, player gets 2x insurance, but loses original bet.
+	ex: bet 30 -> insurance 15 -> dealer gets natural -> bet = -30 + 15x2 = 0
+
+	If dealer does not get natural, the insurance is lost, but original
+	bet is kept.
+
+Split 2 ACEs:
+	Only +1 card per ACE, unless ACE -> can split agian.
+	10+ACE counts as 21 and not natural blackjack
 
 */
 
@@ -35,7 +52,7 @@ int main(){
 
 	int counter = 0;
 
-	while(++counter < 5){
+	while(++counter < 500){
 		printf("\n- NEW DEAL - CYCLE %d\n" , counter);
 		newGameCycle(&game);
 		playerCycle(&game);
