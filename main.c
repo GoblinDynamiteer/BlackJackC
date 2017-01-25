@@ -35,12 +35,14 @@ int main(){
 
 	int counter = 0;
 
-	while(++counter < 1000){
+	while(++counter < 5){
 		printf("\n- NEW DEAL - CYCLE %d\n" , counter);
 		newGameCycle(&game);
 		playerCycle(&game);
 		printf("\n- DEALER CYCLE -\n");
 		dealerCycle(&game);
+		printf("\n- DETERMINE WINNERS -\n");
+		winnerCycle(&game);
 	}
 
 	return 0;

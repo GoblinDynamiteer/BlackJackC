@@ -47,7 +47,7 @@ bool dealerCycle(game * game){
     printf("|DEALER HAS NATURAL BLACKJACK>\n");
   }
   else if(isPlayerBust(game, DEALER, MAIN_HAND)){
-    printf("|DEALER BUST>\n");
+    game->dealer.bust = 1;
   }
   else{
     printf("|DEALER STAYING>\n");
@@ -112,11 +112,55 @@ bool playerCycle(game * game){
           );
         }
         if(isPlayerBust(game, PLAYER, hand)){
-          printf("+PLAYER %d BUST\n", hand);
+          game->player[hand].bust = 1;
+          break;
+        }
+        /*   Stay  */
+        if(getScore(game, PLAYER, hand) > 18){
           break;
         }
       }
     }
   }
   return 1;
+}
+
+void winnerCycle(game * game){
+  for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
+    bool playerBust = game->player[hand].bust;
+    bool dealerBust = game->dealer.bust;
+    int winner = getWinner(game, hand);
+
+    /*  Player bust, autmatically loses   */
+    if(playerBust){
+      printf("+PLAYER %d LOSES (BUST): ", hand);
+    }
+
+    /*  Player is not bust, but dealer is  */
+    else if(!playerBust && dealerBust){
+      printf("+PLAYER %d WINS (DEALER BUST): ", hand);
+    }
+
+    /*   Neither player or dealer is bust  */
+    else if(!playerBust && !dealerBust){
+      if(winner == PLAYER){
+        printf("+PLAYER %d WINS: ", hand);
+      }
+      if(winner == DEALER){
+        printf("+PLAYER %d LOSES: ", hand);
+      }
+      if(winner == DRAW){
+        printf("+PLAYER %d DRAWS: ", hand);
+      }
+    }
+
+    else{
+      printf("------> !! UNKNOWN WINNER !! ");
+    }
+
+    printf("[%d VS %d]\n",
+      getScore(game, PLAYER, hand),
+      getScore(game, DEALER, MAIN_HAND)
+    );
+  }
 }

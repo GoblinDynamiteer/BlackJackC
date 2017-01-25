@@ -89,7 +89,7 @@ bool dealerDraw(game * game){
 	return (
 		(scoreHigh <= 16 && scoreLow <= 16) ||
 		(isBust(scoreHigh) && scoreLow <= 16) ||
-		(isBust(scoreHigh) && scoreHigh <= 16)
+		(isBust(scoreHigh) && scoreHigh <= 16) //check last
 	);
 }
 
@@ -97,9 +97,11 @@ bool dealerDraw(game * game){
 void resetScore(game * game){
 	game->dealer.score.high = 0;
 	game->dealer.score.low = 0;
+	game->dealer.bust = 0;
 	for(int i = 0; i < SPLITS_MAX; i++){
 		game->player[i].score.high = 0;
 		game->player[i].score.low = 0;
+		game->player[i].bust = 0;
 	}
 }
 
@@ -116,4 +118,19 @@ int getScore(game * game, bool player, int hand){
 	}
 	score = scoreHigh <= 21 ? scoreHigh : scoreLow;
 	return score;
+}
+
+/*	 Determines if it is a win/draw/lose against dealer	*/
+int getWinner(game * game, int hand){
+	int winner = DEALER;
+	int dealerScore = getScore(game, DEALER, MAIN_HAND);
+	int playerScore = getScore(game, PLAYER, hand);
+	if(playerScore > dealerScore &&
+		!isPlayerBust(game, PLAYER, hand)){
+			winner = PLAYER;
+	}
+	else if(playerScore == dealerScore){
+		winner = DRAW;
+	}
+	return winner;
 }

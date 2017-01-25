@@ -54,12 +54,16 @@ typedef struct player{
 	int credits;
 	card * hand[MAX_HAND]; //Current cards
 	score score;
+	bool bust;
+	bool natural;
 }player;
 
 /*	 The dealer	*/
 typedef struct dealer{
 	card * hand[MAX_HAND]; //Current cards
 	score score;
+	bool bust;
+	bool natural;
 }dealer;
 
 /*	 Game struct	*/
@@ -102,10 +106,12 @@ bool isBust(int score);
 bool isPlayerBust(game * game, bool player, int hand);
 bool dealerDraw(game * game);
 int getScore(game * game, bool player, int hand);
+int getWinner(game * game, int hand);
 
 /*	cycles.c 	*/
 bool newGameCycle(game * game);
 bool dealerCycle(game * game);
 bool playerCycle(game * game);
+void winnerCycle(game * game);
 
 #endif /* DEF_H_ */
