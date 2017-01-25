@@ -89,16 +89,18 @@ void initRandom();
 void setupGame(game * game);
 card * dealNextCard(game * game);
 void dealCardToPlayer(game * game, bool player, int hand);
-void addScore(game * game, card card, bool player, int hand);
-void resetScore(game * game);
 void nullHands(game * game);
 void firstDeal(game * game);
+bool canSplit(card card1, card card2);
+bool playerHit(void);
+
+/*	score.c	*/
+void addScore(game * game, card card, bool player, int hand);
+void resetScore(game * game);
 bool checkNatural(game * game, bool player, int hand);
-bool dealerDraw(game * game);
 bool isBust(int score);
 bool isPlayerBust(game * game, bool player, int hand);
-bool playerHit(void);
-bool canSplit(card card1, card card2);
+bool dealerDraw(game * game);
 
 /*	cycles.c 	*/
 bool newGameCycle(game * game);
