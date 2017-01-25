@@ -44,6 +44,7 @@ bool dealerCycle(game * game){
     );
   }
   if(checkNatural(game, DEALER, MAIN_HAND)){
+    game->dealer.natural = 1;
     printf("|DEALER HAS NATURAL BLACKJACK>\n");
   }
   else if(isPlayerBust(game, DEALER, MAIN_HAND)){
@@ -88,6 +89,7 @@ bool playerCycle(game * game){
 
     if(checkNatural(game, PLAYER, hand)){
       printf("+PLAYER %d HAS NATURAL BLACKJACK <----------\n", hand);
+      game->player[hand].natural = 1;
     }
     else{
       int i = 2;
@@ -116,7 +118,11 @@ bool playerCycle(game * game){
           break;
         }
         /*   Stay  */
-        if(getScore(game, PLAYER, hand) > 18){
+        if(getScore(game, PLAYER, hand) > getRandomNumber(21-8) + 8){
+          printf("+PLAYER %d STAYS AT SCORE [%d]\n",
+              hand,
+              getScore(game, PLAYER, hand)
+          );
           break;
         }
       }
@@ -129,10 +135,18 @@ void winnerCycle(game * game){
   for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
     bool playerBust = game->player[hand].bust;
     bool dealerBust = game->dealer.bust;
+    bool dealerNatural = game->dealer.natural;
+    bool playerNatural = game->player[hand].natural;
     int winner = getWinner(game, hand);
 
-    /*  Player bust, autmatically loses   */
-    if(playerBust){
+    /*  Player has natural blackjack, 1.5x credits,
+        unless dealer has natural   */
+    if(playerNatural && !dealerNatural){
+      printf("+PLAYER %d WINS (NATURAL): ", hand);
+    }
+
+    /*  Player bust, automatically loses   */
+    else if(playerBust){
       printf("+PLAYER %d LOSES (BUST): ", hand);
     }
 
@@ -150,10 +164,16 @@ void winnerCycle(game * game){
         printf("+PLAYER %d LOSES: ", hand);
       }
       if(winner == DRAW){
-        printf("+PLAYER %d DRAWS: ", hand);
+        if(playerNatural && dealerNatural){
+          printf("+PLAYER %d DRAWS: (BOTH NATURAL): ", hand);
+        }
+        else{
+          printf("+PLAYER %d DRAWS: ", hand);
+        }
       }
     }
 
+    /*   Should not get here!  */
     else{
       printf("------> !! UNKNOWN WINNER !! ");
     }

@@ -88,8 +88,8 @@ bool dealerDraw(game * game){
 	int scoreLow = game->dealer.score.low;
 	return (
 		(scoreHigh <= 16 && scoreLow <= 16) ||
-		(isBust(scoreHigh) && scoreLow <= 16) ||
-		(isBust(scoreHigh) && scoreHigh <= 16) //check last
+		(isBust(scoreHigh) && scoreLow <= 16) /*||
+		(isBust(scoreHigh) && scoreHigh <= 16)*/ //check last
 	);
 }
 
@@ -98,10 +98,12 @@ void resetScore(game * game){
 	game->dealer.score.high = 0;
 	game->dealer.score.low = 0;
 	game->dealer.bust = 0;
+	game->dealer.natural = 0;
 	for(int i = 0; i < SPLITS_MAX; i++){
 		game->player[i].score.high = 0;
 		game->player[i].score.low = 0;
 		game->player[i].bust = 0;
+		game->player[i].natural = 0;
 	}
 }
 
@@ -129,8 +131,10 @@ int getWinner(game * game, int hand){
 		!isPlayerBust(game, PLAYER, hand)){
 			winner = PLAYER;
 	}
-	else if(playerScore == dealerScore){
-		winner = DRAW;
+	/*   Swedish pub rules: dealer wins at draw 17,18,19  */
+	else if((playerScore == dealerScore) &&
+			(dealerScore != 17 || dealerScore != 18 || dealerScore != 19)){
+				winner = DRAW;
 	}
 	return winner;
 }
