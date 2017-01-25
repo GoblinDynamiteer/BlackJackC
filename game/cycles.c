@@ -66,11 +66,21 @@ bool playerCycle(game * game){
     }
     printCardName(game, *game->player[hand].hand[0]);
     printCardName(game, *game->player[hand].hand[1]);
-    printf("+PLAYER %d SCORE [%d / %d]\n",
-        hand,
-        game->player[hand].score.low,
-        game->player[hand].score.high
-    );
+
+    if(game->player[hand].score.low != game->player[hand].score.high
+      && game->player[hand].score.high <= 21){
+      printf("+PLAYER %d SCORE [%d / %d]\n",
+          hand,
+          game->player[hand].score.low,
+          game->player[hand].score.high
+      );
+    }
+    else{
+      printf("+PLAYER %d SCORE [%d]\n",
+          hand,
+          getScore(game, PLAYER, hand)
+      );
+    }
 
     if(canSplit(*game->player[hand].hand[0], *game->player[hand].hand[1])){
       printf("+PLAYER %d CAN SPLIT <----------\n", hand);
@@ -87,11 +97,20 @@ bool playerCycle(game * game){
         dealCardToPlayer(game, PLAYER, hand);
         assert(game->player[hand].hand[i] != NULL);
         printCardName(game, *game->player[hand].hand[i++]);
-        printf("+PLAYER %d SCORE [%d / %d]\n",
-            hand,
-            game->player[hand].score.low,
-            game->player[hand].score.high
-        );
+        if(game->player[hand].score.low != game->player[hand].score.high
+          && game->player[hand].score.high <= 21){
+          printf("+PLAYER %d SCORE [%d / %d]\n",
+              hand,
+              game->player[hand].score.low,
+              game->player[hand].score.high
+          );
+        }
+        else{
+          printf("+PLAYER %d SCORE [%d]\n",
+              hand,
+              getScore(game, PLAYER, hand)
+          );
+        }
         if(isPlayerBust(game, PLAYER, hand)){
           printf("+PLAYER %d BUST\n", hand);
           break;
