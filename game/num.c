@@ -2,7 +2,7 @@
  * num.c
  *
  *  Created on: 16 jan. 2017
- *      Author: kampe_000
+ *      Author: Johan Kämpe
  */
 
 #include "..\def.h"
