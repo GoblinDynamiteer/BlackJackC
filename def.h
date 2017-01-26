@@ -97,6 +97,7 @@ void nullHands(game * game);
 void firstDeal(game * game);
 bool canSplit(card card1, card card2);
 bool playerHit(void);
+int getFreeHandIndex(game * game, bool player, int hand);
 
 /*	score.c	*/
 void addScore(game * game, card card, bool player, int hand);

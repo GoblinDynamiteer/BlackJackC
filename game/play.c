@@ -55,8 +55,22 @@ void dealCardToPlayer(game * game, bool player, int hand){
 				addScore(game, *game->dealer.hand[i], DEALER, MAIN_HAND);
 				break;
 			}
+
+/*	Gets index for next free pointer in dealer/player hand 	*/
+int getFreeHandIndex(game * game, bool player, int hand){
+	for(int i = 0; i < MAX_HAND; i++){
+		if(game->dealer.hand[i] == NULL
+			&& player == DEALER){
+				return i;
+		}
+		if(game->player[hand].hand[i] == NULL
+			&& player == PLAYER){
+				return i;
 		}
 	}
+	/*	Should not get here 	*/
+	assert(1==2);
+	return 0;
 }
 
 /*	 Nulls pointers in player and dealer card hands	*/
