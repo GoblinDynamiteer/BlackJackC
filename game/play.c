@@ -39,22 +39,16 @@ card * dealNextCard(game * game){
 /*	 Deals a new card to player/dealer and adds card score	*/
 void dealCardToPlayer(game * game, bool player, int hand){
 	if(player == PLAYER){
-		for(int i = 0; i < MAX_HAND; i++){
-			if(game->player[hand].hand[i] == NULL){
-				game->player[hand].hand[i] = dealNextCard(game);
-				addScore(game, *game->player[hand].hand[i], PLAYER, hand);
-				break;
-			}
-		}
-
+		int i = getFreeHandIndex(game, PLAYER, hand);
+		game->player[hand].hand[i] = dealNextCard(game);
+		addScore(game, *game->player[hand].hand[i], PLAYER, hand);
 	}
 	else{
-		for(int i = 0; i < MAX_HAND; i++){
-			if(game->dealer.hand[i] == NULL){
-				game->dealer.hand[i] = dealNextCard(game);
-				addScore(game, *game->dealer.hand[i], DEALER, MAIN_HAND);
-				break;
-			}
+		int i = getFreeHandIndex(game, DEALER, MAIN_HAND);
+		game->dealer.hand[i] = dealNextCard(game);
+		addScore(game, *game->dealer.hand[i], DEALER, MAIN_HAND);
+	}
+}
 
 /*	Gets index for next free pointer in dealer/player hand 	*/
 int getFreeHandIndex(game * game, bool player, int hand){
