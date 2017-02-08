@@ -133,7 +133,7 @@ int getWinner(game * game, int hand){
 	}
 	/*   Swedish pub rules: dealer wins at draw 17,18,19  */
 	else if((playerScore == dealerScore) &&
-			(dealerScore != 17 || dealerScore != 18 || dealerScore != 19)){
+			!(dealerScore == 17 || dealerScore == 18 || dealerScore == 19)){
 				winner = DRAW;
 	}
 	return winner;
