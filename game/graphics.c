@@ -63,3 +63,19 @@ bool loadArt(game * game){
 
 	return 1;
 }
+/*	 Draw text	*/
+void drawText(game * game, char * text, int posx, int posy){
+	SDL_Surface *textSurface;
+	SDL_Color color = {0,0,0};
+	textSurface = TTF_RenderText_Solid(
+		game->art.font, text, color
+	);
+	SDL_Texture * textTexture = SDL_CreateTextureFromSurface(
+		game->renderer, textSurface
+	);
+	SDL_Rect textRect = {posx, posy, 0, 0};
+	SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_RenderCopy(game->renderer, textTexture, NULL, &textRect);
+
+	SDL_FreeSurface(textSurface);
+}
