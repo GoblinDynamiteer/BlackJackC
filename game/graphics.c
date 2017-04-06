@@ -65,9 +65,9 @@ bool loadArt(game * game){
 }
 
 bool renderGame(game * game){
-	/*	 Sets background color	*/
-	SDL_SetRenderDrawColor(game->renderer, 102, 204, 204, 255);
-	SDL_RenderClear(game->renderer);
+	/*	 Render background image	*/
+	SDL_Rect bgRect = {0, 0, WIN_WIDTH, WIN_HEIGHT};
+	SDL_RenderCopy(game->renderer, game->art.background, NULL, &bgRect);
 
 	drawText(game, GAME_WINDOW_TITLE, 10, 10);
 
