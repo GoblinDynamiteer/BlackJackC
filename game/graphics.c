@@ -69,7 +69,8 @@ bool renderGame(game * game){
 	SDL_Rect bgRect = {0, 0, WIN_WIDTH, WIN_HEIGHT};
 	SDL_RenderCopy(game->renderer, game->art.background, NULL, &bgRect);
 
-	drawText(game, GAME_WINDOW_TITLE, 10, 10);
+	/*	Draw game title in midde top 	*/
+	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
 
 	/*	 Presents render	*/
 	SDL_RenderPresent(game->renderer);
@@ -79,7 +80,7 @@ bool renderGame(game * game){
 /*	 Draw text	*/
 void drawText(game * game, char * text, int posx, int posy){
 	SDL_Surface *textSurface;
-	SDL_Color color = {0,0,0};
+	SDL_Color color = {255,255,255}; //white
 	textSurface = TTF_RenderText_Solid(
 		game->art.font, text, color
 	);
