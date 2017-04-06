@@ -63,6 +63,19 @@ bool loadArt(game * game){
 
 	return 1;
 }
+
+bool renderGame(game * game){
+	/*	 Sets background color	*/
+	SDL_SetRenderDrawColor(game->renderer, 102, 204, 204, 255);
+	SDL_RenderClear(game->renderer);
+
+	drawText(game, GAME_WINDOW_TITLE, 10, 10);
+
+	/*	 Presents render	*/
+	SDL_RenderPresent(game->renderer);
+	return 1;
+}
+
 /*	 Draw text	*/
 void drawText(game * game, char * text, int posx, int posy){
 	SDL_Surface *textSurface;

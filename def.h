@@ -144,6 +144,7 @@ void winnerCycle(game * game);
 /*	graphics.c 	*/
 int initGfx(game * game);
 bool loadArt(game * game);
+bool renderGame(game * game);
 void drawText(game * game, char * text, int posx, int posy);
 
 #endif /* DEF_H_ */
