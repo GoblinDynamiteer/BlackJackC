@@ -81,9 +81,14 @@ typedef struct dealer{
 	bool natural;
 }dealer;
 
+typedef struct art{
+	SDL_Texture * background;
+}art;
+
 /*	 Game struct	*/
 typedef struct game{
 	deck deck[DECKS];
+	art art;
 	char * cardValues[VALUES_MAX];
 	char * cardSuits[SUITS_MAX];
 	player player[SPLITS_MAX];
@@ -134,5 +139,6 @@ void winnerCycle(game * game);
 
 /*	graphics.c 	*/
 int initGfx(game * game);
+bool loadArt(game * game);
 
 #endif /* DEF_H_ */

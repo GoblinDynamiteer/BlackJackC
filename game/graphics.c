@@ -33,9 +33,28 @@ int initGfx(game * game){
 	if(renderer == NULL || window == NULL){
 		return 0;
 	}
-	
+
 	game->renderer = renderer;
 	game->window = window;
 
+	if(!loadArt(game)){
+		return 0;
+	}
+
+	return 1;
+}
+
+bool loadArt(game * game){
+	const char * imageFiles[] = {
+			"art/bg_table.png",
+	};
+
+	SDL_Surface * surface = NULL;
+
+	for(int i = 0; i < 1; i++){
+		surface = IMG_Load(imageFiles[i]);
+		game->art.background = SDL_CreateTextureFromSurface(
+				game->renderer, surface);
+	}
 	return 1;
 }
