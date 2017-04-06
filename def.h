@@ -73,6 +73,7 @@ typedef struct player{
 	score score;
 	bool bust;
 	bool natural;
+	bool done;
 	int currentBet;
 }player;
 
@@ -146,5 +147,8 @@ int initGfx(game * game);
 bool loadArt(game * game);
 bool renderGame(game * game);
 void drawText(game * game, char * text, int posx, int posy);
+
+/*	event.c 	*/
+bool processEvent(game * game);
 
 #endif /* DEF_H_ */

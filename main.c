@@ -55,14 +55,10 @@ int main(int argc, char *argv[]){
 
 	int counter = 0;
 
-	while(++counter < 500){
-		printf("\n- NEW DEAL - CYCLE %d\n" , counter);
-		newGameCycle(&game);
-		playerCycle(&game);
-		printf("\n- DEALER CYCLE -\n");
-		dealerCycle(&game);
-		printf("\n- DETERMINE WINNERS -\n");
-		winnerCycle(&game);
+	while(processEvent(&game)){
+		renderGame(&game);
+		counter++;
+		SDL_Delay(1000/60);
 	}
 
 	return 0;
