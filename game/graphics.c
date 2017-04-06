@@ -6,8 +6,8 @@ int initGfx(game * game){
   IMG_Init(IMG_INIT_PNG);
   TTF_Init();
 
-  /*	 Hide cursor	*/
-  SDL_ShowCursor(SDL_DISABLE);
+  /*	 Show cursor	*/
+  SDL_ShowCursor(SDL_ENABLE);
 
   /*	 Declare window and renderer	*/
   SDL_Window * window;
