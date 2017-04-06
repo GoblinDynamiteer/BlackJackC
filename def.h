@@ -27,6 +27,11 @@
 /*	 Font stuff	*/
 #define FONT_SIZE 28
 
+/* Art stuff	*/
+#define CARD_ART_WIDTH 161
+#define CARD_ART_HEIGHT 276
+
+
 /*	 Card values	*/
 enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 	EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
@@ -87,6 +92,7 @@ typedef struct dealer{
 
 typedef struct art{
 	SDL_Texture * background;
+	SDL_Texture * cards;
 	TTF_Font *font;
 }art;
 
