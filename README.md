@@ -17,6 +17,10 @@ Todo:
 
 ---
 
+Rendered background:  
+![BG](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img007.PNG)
+
+
 Dealer test/debug:  
 ![Dealer Checks](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img005.PNG)
 
