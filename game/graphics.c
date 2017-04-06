@@ -47,13 +47,14 @@ int initGfx(game * game){
 bool loadArt(game * game){
 	const char * imageFiles[] = {
 			"art/bg_table.png",
+			"art/cards.png"
 	};
 
 	SDL_Surface * surface = NULL;
 
-	for(int i = 0; i < 1; i++){
+	for(int i = 0; i < TEXTURES_MAX; i++){
 		surface = IMG_Load(imageFiles[i]);
-		game->art.background = SDL_CreateTextureFromSurface(
+		game->art.textures[i] = SDL_CreateTextureFromSurface(
 				game->renderer, surface);
 	}
 
@@ -67,9 +68,14 @@ bool loadArt(game * game){
 bool renderGame(game * game){
 	/*	 Render background image	*/
 	SDL_Rect bgRect = {0, 0, WIN_WIDTH, WIN_HEIGHT};
-	SDL_RenderCopy(game->renderer, game->art.background, NULL, &bgRect);
+	SDL_RenderCopy(
+		game->renderer,
+		game->art.textures[BACKGROUND],
+		NULL,
+		&bgRect
+	);
 
-	/*	Draw game title in midde top 	*/
+	/*	Draw game title in middle top 	*/
 	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
 
 	/*	 Presents render	*/

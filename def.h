@@ -28,8 +28,11 @@
 #define FONT_SIZE 28
 
 /* Art stuff	*/
+#define CARD_PLACEMENT_PLAYER_X 800
+#define CARD_PLACEMENT_PLAYER_Y 500
 #define CARD_ART_WIDTH 161
 #define CARD_ART_HEIGHT 276
+enum {BACKGROUND, CARDS, TEXTURES_MAX};
 
 
 /*	 Card values	*/
@@ -91,8 +94,7 @@ typedef struct dealer{
 }dealer;
 
 typedef struct art{
-	SDL_Texture * background;
-	SDL_Texture * cards;
+	SDL_Texture * textures[TEXTURES_MAX];
 	TTF_Font *font;
 }art;
 
