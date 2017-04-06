@@ -27,7 +27,7 @@ Split 2 ACEs:
 
 #include "def.h"
 
-int main(){
+int main(int argc, char *argv[]){
 
 	/*	 Init game struct */
 	game game;
@@ -45,6 +45,9 @@ int main(){
 		printf("Shuffle failed!");
 	}
 
+	if(!initGfx(&game)){
+		printf("SDL / Graphics init failed!");
+	}
 	//printDeck(&game);
 
 	//printf("\nDeck print done -- Start dealing test\n");

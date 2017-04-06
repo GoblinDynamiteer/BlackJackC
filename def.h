@@ -10,6 +10,20 @@
 #include <ctype.h>
 #include <time.h>
 
+/* SDL Library	*/
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+
+/*	 Window dimensions, FULL HD!	*/
+#define WIN_WIDTH 1920
+#define WIN_HEIGHT 1080
+#define GAME_WINDOW_TITLE "BlackJackC"
+
+/*	 Flags for window	*/
+#define WIN_FLAGS 0 //SDL_WINDOW_FULLSCREEN
+#define REN_FLAGS SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+
 /*	 Card values	*/
 enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 	EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
@@ -56,6 +70,7 @@ typedef struct player{
 	score score;
 	bool bust;
 	bool natural;
+	int currentBet;
 }player;
 
 /*	 The dealer	*/
@@ -73,6 +88,8 @@ typedef struct game{
 	char * cardSuits[SUITS_MAX];
 	player player[SPLITS_MAX];
 	dealer dealer;
+	SDL_Window * window;
+	SDL_Renderer * renderer;
 }game;
 
 
@@ -114,5 +131,8 @@ bool newGameCycle(game * game);
 bool dealerCycle(game * game);
 bool playerCycle(game * game);
 void winnerCycle(game * game);
+
+/*	graphics.c 	*/
+int initGfx(game * game);
 
 #endif /* DEF_H_ */
