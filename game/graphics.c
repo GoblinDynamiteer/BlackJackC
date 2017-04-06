@@ -56,5 +56,10 @@ bool loadArt(game * game){
 		game->art.background = SDL_CreateTextureFromSurface(
 				game->renderer, surface);
 	}
+
+	/*	 Free surfaces	*/
+	SDL_FreeSurface(surface);
+	game->art.font = TTF_OpenFont("font/joystix_monospace.ttf", FONT_SIZE);
+
 	return 1;
 }

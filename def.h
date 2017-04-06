@@ -24,6 +24,9 @@
 #define WIN_FLAGS 0 //SDL_WINDOW_FULLSCREEN
 #define REN_FLAGS SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
 
+/*	 Font stuff	*/
+#define FONT_SIZE 28
+
 /*	 Card values	*/
 enum {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 	EIGHT, NINE, TEN, JACK, QUEEN, KING, VALUES_MAX};
@@ -83,6 +86,7 @@ typedef struct dealer{
 
 typedef struct art{
 	SDL_Texture * background;
+	TTF_Font *font;
 }art;
 
 /*	 Game struct	*/
