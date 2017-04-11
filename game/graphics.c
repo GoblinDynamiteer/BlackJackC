@@ -119,23 +119,37 @@ void renderGame(game * game){
 	renderBackground(game);
 	/*	Draw game title in middle top 	*/
 	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
-	if(game->player->done){
-		drawText(game, "DONE!", 10, 10);
+	if(!game->running){
+		drawText(game, "PRESS LMB TO PLAY!", 10, 10);
 	}
-	else{
-		drawText(game, "WAITING!", 10, 10);
+	else if(!game->player[MAIN_HAND].done){
+		drawText(game, "LMB: HIT", 10, 10);
+		drawText(game, "RMB: STAY/RESET", 10, 10+30);
 	}
+
+	/* Render score	*/
 	char score[80];
 	sprintf(score, "Dealer score: %d / %d",
 		game->dealer.score.low,
 		game->dealer.score.high
 	);
 	drawText(game, score, WIN_WIDTH-500, 10);
-	/* Render cards	*/
+	sprintf(score, "Player score: %d / %d",
+		game->player[MAIN_HAND].score.low,
+		game->player[MAIN_HAND].score.high
+	);
+	drawText(game, score, WIN_WIDTH-500, 10+30);
+
+	/* Render dealer cards	*/
 	for(int i = 0; game->dealer.hand[i] != NULL; i++){
 		renderCard(game, *game->dealer.hand[i],
 			CARD_PLACEMENT_DEALER_X + CARD_RENDER_SPACING * i,
 			CARD_PLACEMENT_DEALER_Y);
 	}
-
+	/* Render player cards	*/
+	for(int i = 0; game->player[MAIN_HAND].hand[i] != NULL; i++){
+		renderCard(game, *game->player[MAIN_HAND].hand[i],
+			CARD_PLACEMENT_PLAYER_X + CARD_RENDER_SPACING * i,
+			CARD_PLACEMENT_PLAYER_Y);
+	}
 }

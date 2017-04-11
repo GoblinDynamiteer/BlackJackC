@@ -29,9 +29,9 @@
 
 /* Art stuff	*/
 #define CARD_PLACEMENT_PLAYER_X 800
-#define CARD_PLACEMENT_PLAYER_Y 500
+#define CARD_PLACEMENT_PLAYER_Y 600
 #define CARD_PLACEMENT_DEALER_X 800
-#define CARD_PLACEMENT_DEALER_Y 500
+#define CARD_PLACEMENT_DEALER_Y 200
 #define CARD_ART_WIDTH 161
 #define CARD_ART_HEIGHT 276
 #define CARD_RENDER_SPACING (CARD_ART_WIDTH / 3)
@@ -111,6 +111,7 @@ typedef struct game{
 	dealer dealer;
 	SDL_Window * window;
 	SDL_Renderer * renderer;
+	bool running;
 }game;
 
 

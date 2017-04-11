@@ -10,6 +10,7 @@
 void setupGame(game * game){
 	resetScore(game);
 	nullHands(game);
+	game->running = 0;
 }
 
 /*	 Gets the next card in the deck 	*/

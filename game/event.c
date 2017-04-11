@@ -22,13 +22,20 @@ bool processEvent(game * game){
 			/*	 A mouse button has been pressed	*/
 			case SDL_MOUSEBUTTONDOWN:
 				if(event.button.button == SDL_BUTTON_LEFT){
-					game->player->done = 1;
-					newGameCycle(game);
-					printf("LMB!\n");
+					if(!game->running){
+						newGameCycle(game);
+						printf("NEW GAME!!\n");
+					}
+					else if(!game->player[MAIN_HAND].done){
+						printf("+PLAYER GETS CARD\n");
+						dealCardToPlayer(game, PLAYER, MAIN_HAND);
+						printf("DRAWING!\n");
+					}
 				}
 				if(event.button.button == SDL_BUTTON_RIGHT){
-					game->player->done = 0;
-					printf("RMB!\n");
+					game->player->done = 1;
+					game->running = 0;
+					printf("RMB - RESET!\n");
 				}
 				break;
 		}
