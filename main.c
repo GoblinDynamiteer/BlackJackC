@@ -56,7 +56,11 @@ int main(int argc, char *argv[]){
 	int counter = 0;
 
 	while(processEvent(&game)){
-		renderGame(&game);
+		renderBackground(&game);
+		/*	Draw game title in middle top 	*/
+		drawText(&game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
+		/*	 Presents render	*/
+		SDL_RenderPresent(game.renderer);
 		counter++;
 		SDL_Delay(1000/60);
 	}

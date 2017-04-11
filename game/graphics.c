@@ -65,8 +65,8 @@ bool loadArt(game * game){
 	return 1;
 }
 
-bool renderGame(game * game){
-	/*	 Render background image	*/
+/*	 Render background image	*/
+void renderBackground(game * game){
 	SDL_Rect bgRect = {0, 0, WIN_WIDTH, WIN_HEIGHT};
 	SDL_RenderCopy(
 		game->renderer,
@@ -74,15 +74,6 @@ bool renderGame(game * game){
 		NULL,
 		&bgRect
 	);
-
-	/*	Draw game title in middle top 	*/
-	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
-
-	renderCard(game, NULL, 100, 200);
-
-	/*	 Presents render	*/
-	SDL_RenderPresent(game->renderer);
-	return 1;
 }
 
 /*	 Draw text	*/
@@ -103,8 +94,8 @@ void drawText(game * game, char * text, int posx, int posy){
 }
 
 void renderCard(game * game, card * card, int x, int y){
-	int cardValueOffset = KING;
-	int cardSuiteOffset = DIAMONDS;
+	int cardValueOffset = ACE;
+	int cardSuiteOffset = CLUBS;
 	/*	 Source and destination rectangles	*/
 	SDL_Rect src = {
 		0 + CARD_ART_WIDTH * cardValueOffset,

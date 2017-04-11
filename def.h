@@ -153,7 +153,7 @@ void winnerCycle(game * game);
 /*	graphics.c 	*/
 int initGfx(game * game);
 bool loadArt(game * game);
-bool renderGame(game * game);
+void renderBackground(game * game);
 void drawText(game * game, char * text, int posx, int posy);
 void renderCard(game * game, card * card, int x, int y);
 
