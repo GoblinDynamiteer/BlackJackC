@@ -154,6 +154,7 @@ void winnerCycle(game * game);
 int initGfx(game * game);
 bool loadArt(game * game);
 void renderBackground(game * game);
+void renderGame(game * game);
 void drawText(game * game, char * text, int posx, int posy);
 void renderCard(game * game, card * card, int x, int y);
 

@@ -116,3 +116,15 @@ void renderCard(game * game, card * card, int x, int y){
 			SDL_FLIP_NONE
 	);
 }
+
+void renderGame(game * game){
+	renderBackground(game);
+	/*	Draw game title in middle top 	*/
+	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
+	if(game->player->done){
+		drawText(game, "DONE!", 10, 10);
+	}
+	else{
+		drawText(game, "WAITING!", 10, 10);
+	}
+}

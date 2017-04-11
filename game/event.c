@@ -5,6 +5,7 @@ bool processEvent(game * game){
 	/*	 Event union	*/
 	SDL_Event event;
 	bool quit = 0;
+	renderBackground(game);
 
 	while(SDL_PollEvent(&event)){
 		Uint32 type = event.type;
