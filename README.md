@@ -15,6 +15,8 @@ Todo:
 - Graphics
 
 
+[Video of scoring/dealing test](https://youtu.be/QV0gTkqhj7c)  
+
 ---
 
 Graphics!
