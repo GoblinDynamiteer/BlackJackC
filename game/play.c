@@ -43,11 +43,13 @@ void dealCardToPlayer(game * game, bool player, int hand){
 		int i = getFreeHandIndex(game, PLAYER, hand);
 		game->player[hand].hand[i] = dealNextCard(game);
 		addScore(game, *game->player[hand].hand[i], PLAYER, hand);
+		game->player[hand].cardsOnHand++;
 	}
 	else{
 		int i = getFreeHandIndex(game, DEALER, MAIN_HAND);
 		game->dealer.hand[i] = dealNextCard(game);
 		addScore(game, *game->dealer.hand[i], DEALER, MAIN_HAND);
+		game->dealer.cardsOnHand++;
 	}
 }
 
@@ -74,7 +76,9 @@ void nullHands(game * game){
 		game->dealer.hand[i] = NULL;
 		assert(game->dealer.hand[i] == NULL);
 	}
+	game->dealer.cardsOnHand = 0;
 	for(int j = 0; j < SPLITS_MAX; j++){
+		game->player[j].cardsOnHand = 0;
 		for(int i = 0; i< MAX_HAND; i++){
 			game->player[j].hand[i] = NULL;
 			assert(game->player[j].hand[i] == NULL);
@@ -94,6 +98,8 @@ void firstDeal(game * game){
 	game->player[MAIN_HAND].hand[1] = dealNextCard(game);
 	game->dealer.hand[1] = dealNextCard(game);
 
+	game->dealer.cardsOnHand = 2;
+	game->player[MAIN_HAND].cardsOnHand = 2;
 	/*	Score
 	 *	Dealer's second card is face down,
 	 * 	don't reveal score for second card	*/

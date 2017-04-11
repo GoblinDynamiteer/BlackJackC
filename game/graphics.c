@@ -128,17 +128,25 @@ void renderGame(game * game){
 	}
 
 	/* Render score	*/
-	char score[80];
-	sprintf(score, "Dealer score: %d / %d",
+	char text[80];
+	sprintf(text, "Dealer score: %d / %d",
 		game->dealer.score.low,
 		game->dealer.score.high
 	);
-	drawText(game, score, WIN_WIDTH-500, 10);
-	sprintf(score, "Player score: %d / %d",
+	drawText(game, text, WIN_WIDTH-500, 10);
+	sprintf(text, "Player score: %d / %d",
 		game->player[MAIN_HAND].score.low,
 		game->player[MAIN_HAND].score.high
 	);
-	drawText(game, score, WIN_WIDTH-500, 10+30);
+	drawText(game, text, WIN_WIDTH-500, 10+30);
+	sprintf(text, "Dealer cards: %d",
+		game->dealer.cardsOnHand
+	);
+	drawText(game, text, WIN_WIDTH-500, 10+30+30);
+	sprintf(text, "Player cards: %d",
+		game->player[MAIN_HAND].cardsOnHand
+	);
+	drawText(game, text, WIN_WIDTH-500, 10+30+30+30);
 
 	/* Render dealer cards	*/
 	for(int i = 0; game->dealer.hand[i] != NULL; i++){

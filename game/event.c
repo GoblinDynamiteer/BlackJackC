@@ -29,6 +29,8 @@ bool processEvent(game * game){
 					else if(!game->player[MAIN_HAND].done){
 						printf("+PLAYER GETS CARD\n");
 						dealCardToPlayer(game, PLAYER, MAIN_HAND);
+						int cards = game->player[MAIN_HAND].cardsOnHand;
+						printCardName(game, *game->player[MAIN_HAND].hand[cards-1]);
 						printf("DRAWING!\n");
 					}
 				}

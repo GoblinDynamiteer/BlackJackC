@@ -81,6 +81,7 @@ typedef struct score{
 typedef struct player{
 	int credits;
 	card * hand[MAX_HAND]; //Current cards
+	int cardsOnHand;
 	score score;
 	bool bust;
 	bool natural;
@@ -91,6 +92,7 @@ typedef struct player{
 /*	 The dealer	*/
 typedef struct dealer{
 	card * hand[MAX_HAND]; //Current cards
+	int cardsOnHand;
 	score score;
 	bool bust;
 	bool natural;
