@@ -17,6 +17,9 @@ Todo:
 
 ---
 
+Graphics!
+![Cards](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img009.PNG)
+
 Rendered background:  
 ![BG](https://raw.githubusercontent.com/GoblinDynamiteer/BlackJackC/master/img/img007.PNG)
 
