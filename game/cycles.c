@@ -21,6 +21,7 @@ bool newGameCycle(game * game){
   );
   /*    Add score for hidden card */
   addScore(game, *game->dealer.hand[1], DEALER, MAIN_HAND);
+  printCardName(game, *game->dealer.hand[1]);
   return 1;
 }
 

@@ -54,6 +54,7 @@ int main(int argc, char *argv[]){
 	//getchar();
 
 	int counter = 0;
+
 	while(processEvent(&game)){
 		renderGame(&game);
 		/*	 Presents render	*/

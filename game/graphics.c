@@ -93,13 +93,11 @@ void drawText(game * game, char * text, int posx, int posy){
 	SDL_FreeSurface(textSurface);
 }
 
-void renderCard(game * game, card * card, int x, int y){
-	int cardValueOffset = ACE;
-	int cardSuiteOffset = CLUBS;
+void renderCard(game * game, card card, int x, int y){
 	/*	 Source and destination rectangles	*/
 	SDL_Rect src = {
-		0 + CARD_ART_WIDTH * cardValueOffset,
-		0 + CARD_ART_HEIGHT * cardSuiteOffset,
+		0 + CARD_ART_WIDTH * card.value,
+		0 + CARD_ART_HEIGHT * card.suit,
 		CARD_ART_WIDTH,
 		CARD_ART_HEIGHT
 	};
@@ -127,4 +125,17 @@ void renderGame(game * game){
 	else{
 		drawText(game, "WAITING!", 10, 10);
 	}
+	char score[80];
+	sprintf(score, "Dealer score: %d / %d",
+		game->dealer.score.low,
+		game->dealer.score.high
+	);
+	drawText(game, score, WIN_WIDTH-500, 10);
+	/* Render cards	*/
+	for(int i = 0; game->dealer.hand[i] != NULL; i++){
+		renderCard(game, *game->dealer.hand[i],
+			CARD_PLACEMENT_DEALER_X + CARD_RENDER_SPACING * i,
+			CARD_PLACEMENT_DEALER_Y);
+	}
+
 }

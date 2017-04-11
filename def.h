@@ -30,8 +30,11 @@
 /* Art stuff	*/
 #define CARD_PLACEMENT_PLAYER_X 800
 #define CARD_PLACEMENT_PLAYER_Y 500
+#define CARD_PLACEMENT_DEALER_X 800
+#define CARD_PLACEMENT_DEALER_Y 500
 #define CARD_ART_WIDTH 161
 #define CARD_ART_HEIGHT 276
+#define CARD_RENDER_SPACING (CARD_ART_WIDTH / 3)
 enum {BACKGROUND, CARDS, TEXTURES_MAX};
 
 
@@ -156,7 +159,7 @@ bool loadArt(game * game);
 void renderBackground(game * game);
 void renderGame(game * game);
 void drawText(game * game, char * text, int posx, int posy);
-void renderCard(game * game, card * card, int x, int y);
+void renderCard(game * game, card card, int x, int y);
 
 /*	event.c 	*/
 bool processEvent(game * game);
