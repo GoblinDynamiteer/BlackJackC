@@ -35,12 +35,32 @@ bool processEvent(game * game){
 					}
 				}
 				if(event.button.button == SDL_BUTTON_RIGHT){
-					game->player->done = 1;
-					game->running = 0;
-					printf("RMB - RESET!\n");
+					game->player[MAIN_HAND].done = 1;
+					printf("RMB - STAYING!\n");
 				}
 				break;
 		}
+	}
+	if(game->running && game->player[MAIN_HAND].done && dealerDraw(game)){
+		printf("|DEALER DRAWS\n");
+    dealCardToPlayer(game, DEALER, MAIN_HAND);
+		int cards = game->dealer.cardsOnHand;
+		assert(game->dealer.hand[cards-1] != NULL);
+    printCardName(game, *game->dealer.hand[cards-1]);
+	}
+	else if(!dealerDraw(game) && game->running && game->player[MAIN_HAND].done){
+		if(checkNatural(game, DEALER, MAIN_HAND)){
+	    game->dealer.natural = 1;
+	    printf("|DEALER HAS NATURAL BLACKJACK>\n");
+	  }
+	  else if(isPlayerBust(game, DEALER, MAIN_HAND)){
+	    game->dealer.bust = 1;
+			printf("|DEALER IS BUST>\n");
+	  }
+		else{
+			printf("|DEALER STAYING>\n");
+		}
+		winnerCycle(game);
 	}
 	return (quit == 0);
 }

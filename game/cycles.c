@@ -134,7 +134,7 @@ bool playerCycle(game * game){
 }
 
 void winnerCycle(game * game){
-  for(int hand = MAIN_HAND; hand < SPLITS_MAX; hand++){
+  for(int hand = MAIN_HAND; hand == MAIN_HAND; hand++){
     bool playerBust = game->player[hand].bust;
     bool dealerBust = game->dealer.bust;
     bool dealerNatural = game->dealer.natural;
@@ -184,5 +184,6 @@ void winnerCycle(game * game){
       getScore(game, PLAYER, hand),
       getScore(game, DEALER, MAIN_HAND)
     );
+    game->running = 0;
   }
 }

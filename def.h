@@ -26,6 +26,7 @@
 
 /*	 Font stuff	*/
 #define FONT_SIZE 28
+#define FONT_SPACING (FONT_SIZE+2)
 
 /* Art stuff	*/
 #define CARD_PLACEMENT_PLAYER_X 800

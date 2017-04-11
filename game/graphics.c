@@ -124,7 +124,7 @@ void renderGame(game * game){
 	}
 	else if(!game->player[MAIN_HAND].done){
 		drawText(game, "LMB: HIT", 10, 10);
-		drawText(game, "RMB: STAY/RESET", 10, 10+30);
+		drawText(game, "RMB: STAY/RESET", 10, 10 + FONT_SPACING);
 	}
 
 	/* Render score	*/
@@ -138,15 +138,15 @@ void renderGame(game * game){
 		game->player[MAIN_HAND].score.low,
 		game->player[MAIN_HAND].score.high
 	);
-	drawText(game, text, WIN_WIDTH-500, 10+30);
+	drawText(game, text, WIN_WIDTH-500, 10 + FONT_SPACING);
 	sprintf(text, "Dealer cards: %d",
 		game->dealer.cardsOnHand
 	);
-	drawText(game, text, WIN_WIDTH-500, 10+30+30);
+	drawText(game, text, WIN_WIDTH-500, 10 + FONT_SPACING * 2);
 	sprintf(text, "Player cards: %d",
 		game->player[MAIN_HAND].cardsOnHand
 	);
-	drawText(game, text, WIN_WIDTH-500, 10+30+30+30);
+	drawText(game, text, WIN_WIDTH-500, 10 + FONT_SPACING * 3);
 
 	/* Render dealer cards	*/
 	for(int i = 0; game->dealer.hand[i] != NULL; i++){
