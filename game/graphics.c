@@ -78,6 +78,8 @@ bool renderGame(game * game){
 	/*	Draw game title in middle top 	*/
 	drawText(game, GAME_WINDOW_TITLE, (WIN_WIDTH/2-170), 10);
 
+	renderCard(game, NULL, 100, 200);
+
 	/*	 Presents render	*/
 	SDL_RenderPresent(game->renderer);
 	return 1;
@@ -98,4 +100,28 @@ void drawText(game * game, char * text, int posx, int posy){
 	SDL_RenderCopy(game->renderer, textTexture, NULL, &textRect);
 
 	SDL_FreeSurface(textSurface);
+}
+
+void renderCard(game * game, card * card, int x, int y){
+	int cardValueOffset = KING;
+	int cardSuiteOffset = DIAMONDS;
+	/*	 Source and destination rectangles	*/
+	SDL_Rect src = {
+		0 + CARD_ART_WIDTH * cardValueOffset,
+		0 + CARD_ART_HEIGHT * cardSuiteOffset,
+		CARD_ART_WIDTH,
+		CARD_ART_HEIGHT
+	};
+	SDL_Rect dest = {x, y, CARD_ART_WIDTH, CARD_ART_HEIGHT};
+
+	/*	 Draw part of texture in src rectangle to dest rectangle	*/
+	SDL_RenderCopyEx(
+			game->renderer,
+			game->art.textures[CARDS],
+			&src,
+			&dest,
+			0.0,
+			NULL,
+			SDL_FLIP_NONE
+	);
 }
